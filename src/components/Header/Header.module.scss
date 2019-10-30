@@ -1,0 +1,16 @@
+@import "./../../variables";
+
+.header {
+    display: grid;
+    grid-area: h;
+    background-color: white;
+    grid-template-columns: 1fr 10fr 1fr;
+    grid-gap: 20px;
+
+}
+.header img{
+    align-self: center;
+    height: 80%;
+    grid-column-start: 2;
+    justify-self: center;
+}

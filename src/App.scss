@@ -1,0 +1,17 @@
+@import "variables";
+
+body{
+    background: $lightGrayColor;
+}
+.app-wrapper {
+    display: grid;
+    grid-template-rows: 70px 1fr 70px;
+    grid-template-columns: 1fr 3fr 7fr 1fr;
+    grid-template-areas: "h h h h" ". n c .";
+    grid-gap: 20px;
+}
+.app-wrapper-content{
+  grid-area: c;
+  background-color: white;
+  border-radius: 5px;
+}
