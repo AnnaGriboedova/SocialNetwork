@@ -1,0 +1,40 @@
+@import "./../../variables";
+
+.dialogs{
+  padding: 30px;
+  .heading{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    margin: 0 0 30px 0;
+    color: $darkGrayColor;
+    font-family: AXISExtraBold, sans-serif;
+  }
+  .dialogsWrapper{
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    .dialogsList{
+      grid-gap: 20px;
+      display: grid;
+      .dialog{
+        display: grid;
+        grid-template-columns: 60px auto;
+        column-gap: 10px;
+        .dialog__profileImg{
+          grid-column-start: 1;
+          grid-column-end: 2;
+        }
+        .dialogInfo{
+          align-self: center;
+        }
+      }
+    }
+    .messagesList{
+      .message{
+        .message__profileImg{
+
+        }
+      }
+    }
+  }
+}

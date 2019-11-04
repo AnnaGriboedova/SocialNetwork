@@ -1,19 +1,50 @@
 @import "./../../variables";
 
-.nav {
+.navContainer{
   grid-area: n;
-  background-color: white;
-  border-radius: 5px;
   padding: 30px;
-  .item{
-    padding: 0 0 10px 0;
-    text-decoration: none;
-    a{
-      color:$darkGrayColor;
+  display: grid;
+  .nav {
+    .item {
+      padding: 0 0 10px 0;
       text-decoration: none;
+
+      a {
+        color: $darkGrayColor;
+        text-decoration: none;
+      }
+
+      a.active {
+        color: $violetColor;
+      }
     }
-    a.active{
-      color: $violetColor;
+  }
+
+  .friendsBlock {
+    .heading {
+      color: $darkGrayColor;
+      font-family: AXISExtraBold, sans-serif;
+      font-size: 18px;
+    }
+
+    .friendsList {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 15px;
+      .friendItem {
+        display: grid;
+        grid-template-rows: 1fr minmax(10px, auto);
+        text-align: center;
+        grid-gap: 10px;
+        .profileImage {
+          grid-row-start: 1;
+          justify-self: center;
+        }
+
+        .name {
+
+        }
+      }
     }
   }
 }
