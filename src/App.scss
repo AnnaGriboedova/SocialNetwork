@@ -1,11 +1,15 @@
 @import "variables";
 
-body{
-    background: $lightGrayColor;
+body {
+  background: $lightGrayColor;
+  margin: 0;
+  font-family: sans-serif;
 }
-body *{
+
+body * {
   box-sizing: border-box;
 }
+
 @font-face {
   font-family: 'AXISExtraBold';
   src: url('fonts/AXIS-ExtraBold/AXIS-ExtraBold.eot');
@@ -17,21 +21,25 @@ body *{
   font-weight: normal;
   font-style: normal;
 }
+
 .appWrapper {
-    display: grid;
-    grid-template-rows: 70px 1fr 70px;
-    grid-template-columns: 1fr 3fr 7fr 1fr;
-    grid-template-areas: "h h h h" ". n c .";
-    grid-gap: 20px;
+  display: grid;
+  grid-template-rows: 70px 1fr 70px;
+  grid-template-columns: 1fr 3fr 7fr 1fr;
+  grid-template-areas: "h h h h" ". n c .";
+  grid-gap: 20px;
 }
-.contentContainer{
+
+.contentContainer {
   grid-area: c;
 }
-.container{
+
+.container {
   background-color: white;
   border-radius: 5px;
 }
-.smProfileIcon{
+
+.smProfileIcon {
   width: 60px;
   border-radius: 100%;
   background-position: center;

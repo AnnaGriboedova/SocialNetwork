@@ -4,6 +4,7 @@
   grid-area: n;
   padding: 30px;
   display: grid;
+  height: min-content;
   .nav {
     .item {
       padding: 0 0 10px 0;
