@@ -3,7 +3,7 @@ import s from './../Navbar.module.scss'
 import FriendItem from "./FriendItem/FriendItem";
 
 const Friends = (props) => {
-  let friendsElements = props.friends.map(friend => <FriendItem name={friend.name} id={friend.id} />);
+  let friendsElements = props.friends.map(friend => <FriendItem key={friend.id} name={friend.name} id={friend.id} />);
   return (
       <div className={s.friendsBlock}>
         <h3 className={s.heading}>Friends</h3>
