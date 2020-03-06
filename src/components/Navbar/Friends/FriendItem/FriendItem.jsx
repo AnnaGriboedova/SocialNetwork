@@ -1,6 +1,6 @@
 import React from 'react'
 import s from './../../Navbar.module.scss'
-import profileImg from './../../../../img/icons/profile.png'
+import profileImg from './../../../../assets/img/profile.png'
 
 const FriendItem = (props) => {
   return (

@@ -1,7 +1,7 @@
 import React from 'react'
 import s from './../Dialogs.module.scss'
 import {NavLink} from "react-router-dom";
-import profileImg from './../../../img/icons/profile.png'
+import profileImg from './../../../assets/img/profile.png'
 
 const DialogItem = (props) => {
   let path = '/dialogs/' + props.id;
