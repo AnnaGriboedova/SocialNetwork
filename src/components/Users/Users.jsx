@@ -1,43 +1,32 @@
 import React from 'react'
 import styles from './Users.module.scss'
-import * as axios from 'axios'
-
 import userPhoto from '../../assets/img/profile.png'
+import {NavLink} from "react-router-dom";
+import Preloader from "../common/Preloader/Preloader";
 
-class Users extends React.Component {
-    componentDidMount() {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`).then(response => {
-            this.props.setUsers(response.data.items);
-            this.props.setUsersTotalCount(response.data.totalCount);
-        });
+let Users = (props) => {
+    let pagesCount = Math.ceil(props.usersTotalCount / props.pageSize);
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
     }
-
-    onPageChanged(pageNum){
-        this.props.setCurrentPage(pageNum);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNum}&count=${this.props.pageSize}`).then(response => {
-            this.props.setUsers(response.data.items)
-        });
-    }
-
-    render() {
-        let pagesCount = Math.ceil(this.props.usersTotalCount / this.props.pageSize);
-        let pages = [];
-        for (let i=1; i <= pagesCount; i++) {
-            pages.push(i);
-        }
-        return <div className={styles.usersContainer}>
+    return <>
+        {props.isFetching? <Preloader/>:''}
+        <div className={styles.usersContainer}>
             <div>
                 {pages.map(p => {
-                    return <span onClick={()=>{this.onPageChanged(p)}} className={this.props.currentPage === p && styles.selectedPage}>{p}</span>
+                    return <span onClick={() => {
+                        props.onPageChanged(p)
+                    }} className={props.currentPage === p && styles.selectedPage}>{p}</span>
                 })}
             </div>
-            {this.props.users.map(u => <div className={styles.userWrapper} key={u.id}>
+            {props.users.map(u => <div className={styles.userWrapper} key={u.id}>
                 <div className={styles.userProfile}>
                     <div>
-                        <a className={styles.profileImgLink}>
+                        <NavLink className={styles.profileImgLink} to={'profile/'+u.id}>
                             <img className={styles.profileImg} alt={'profile image'}
                                  src={u.photos.small !== null ? u.photos.small : userPhoto}/>
-                        </a>
+                        </NavLink>
                     </div>
                 </div>
                 <div className={styles.userInfoWrapper}>
@@ -47,10 +36,10 @@ class Users extends React.Component {
                         <div className={styles.userButtonWrapper}>
                             {u.followed ?
                                 <button onClick={() => {
-                                    this.props.unfollow(u.id)
+                                    props.unfollow(u.id)
                                 }}>Unfollow</button> :
                                 <button onClick={() => {
-                                    this.props.follow(u.id)
+                                    props.follow(u.id)
                                 }}>Follow</button>}
                         </div>
                     </div>
@@ -61,7 +50,8 @@ class Users extends React.Component {
                 </div>
             </div>)}
         </div>
-    }
-}
+    </>
+
+};
 
 export default Users;
