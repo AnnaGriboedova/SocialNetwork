@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -44,18 +46,20 @@ const usersReducer = (state = initialState, action) => {
         case TOGGLE_IS_FETCHING:
             return {...state, isFetching: action.isFetching};
         case TOGGLE_IS_FOLLOWING:
-            return {...state, onFollowingUsersId: action.isFetching?
+            return {
+                ...state, onFollowingUsersId: action.isFetching ?
                     [...state.onFollowingUsersId, action.userId]
-                    : state.onFollowingUsersId.filter(id => id !== action.userId)};
+                    : state.onFollowingUsersId.filter(id => id !== action.userId)
+            };
     }
     return state
 };
 
-export const follow = (userId) => ({
+export const followSuccess = (userId) => ({
     type: FOLLOW,
     userId
 });
-export const unfollow = (userId) => ({
+export const unfollowSuccess = (userId) => ({
     type: UNFOLLOW,
     userId
 });
@@ -81,5 +85,41 @@ export const toggleIsFollowing = (isFetching, userId) => ({
     isFetching
 });
 
+export const getUsers = (currentPage, pageSize) => {
+    return (dispatch) => {
+        dispatch(toggleIsFetching(true));
+        dispatch(setCurrentPage(currentPage));
+        usersAPI.getUsers(currentPage, pageSize).then(data => {
+            dispatch(toggleIsFetching(false));
+            dispatch(setUsers(data.items));
+            dispatch(setUsersTotalCount(data.totalCount));
+
+        });
+    }
+};
+
+export const unfollow = (friendId) => {
+    return (dispatch) => {
+        dispatch(toggleIsFollowing(true, friendId));
+        usersAPI.deleteFriend(friendId).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(unfollowSuccess(friendId))
+            }
+            dispatch(toggleIsFollowing(false, friendId));
+        });
+    }
+};
+
+export const follow = (friendId) => {
+    return (dispatch) => {
+        dispatch(toggleIsFollowing(true, friendId));
+        usersAPI.addFriend(friendId).then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(followSuccess(friendId))
+            }
+            dispatch(toggleIsFollowing(false, friendId));
+        });
+    }
+};
 
 export default usersReducer;
