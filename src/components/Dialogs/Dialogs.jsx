@@ -2,6 +2,7 @@ import React from 'react'
 import s from './Dialogs.module.scss'
 import MessageItem from "./MessageItem/MessageItem";
 import DialogItem from "./DialogItem/DialogItem";
+import {Redirect} from "react-router-dom";
 
 const Dialogs = (props) => {
     let dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>);
@@ -16,6 +17,8 @@ const Dialogs = (props) => {
         props.updateNewMessageText(text);
     };
 
+    if (!props.isAuth) return <Redirect to={"/login"}/>;
+
     return (
         <div className={`${s.dialogs} container`}>
             <h3 className={s.heading}>Dialogs</h3>
@@ -26,8 +29,9 @@ const Dialogs = (props) => {
                 <div className={s.messagesList}>
                     <div>{messagesElements}</div>
                     <div>
-                        <div><textarea placeholder={'Enter your message'} className={s.messageInput} onChange={onMessageChange}
-                                     value={props.dialogsPage.newMessageText}/></div>
+                        <div><textarea placeholder={'Enter your message'} className={s.messageInput}
+                                       onChange={onMessageChange}
+                                       value={props.dialogsPage.newMessageText}/></div>
                         <div>
                             <button onClick={sendMessage}>send</button>
                         </div>

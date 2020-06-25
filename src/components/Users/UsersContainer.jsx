@@ -7,6 +7,8 @@ import {
     toggleIsFollowing, getUsers
 } from "../../redux/usersReducer";
 import Users from "./Users";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 class UsersAPI extends React.Component {
@@ -44,10 +46,13 @@ let mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, {
-    setCurrentPage,
-    toggleIsFollowing,
-    getUsers,
-    unfollow,
-    follow
-})(UsersAPI);
+export default compose(
+    connect(mapStateToProps, {
+        setCurrentPage,
+        toggleIsFollowing,
+        getUsers,
+        unfollow,
+        follow
+    }),
+    withAuthRedirect
+)(UsersAPI);
