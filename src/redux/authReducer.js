@@ -38,4 +38,23 @@ export const getAuthUserData = () =>
         });
     };
 
+export const login = (email, password, rememberMe) =>
+    (dispatch) => {
+        authAPI.login(email, password, rememberMe).then(response => {
+            if (response.data.resultCode === 0) {
+
+               /* alert(response.data.data.userId+'  '+ email+'  '+ email);
+                dispatch(setUserAuthData(response.data.data.userId, email, email));*/
+                authAPI.me().then(response => {
+                    if (response.data.resultCode === 0) {
+                        let {id, email, login} = response.data.data;
+                        dispatch(setUserAuthData(id, email, login));
+                    }
+                });
+            }else{
+                alert('Данные введены не верно')
+            }
+        });
+    };
+
 export default authReducer;
