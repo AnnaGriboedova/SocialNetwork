@@ -14,8 +14,7 @@ const authReducer = (state = initialState, action) => {
         case SET_USER_DATA: {
             return {
                 ...state,
-                ...action.data,
-                isAuth: true
+                ...action.payload,
             };
         }
     }
@@ -23,9 +22,9 @@ const authReducer = (state = initialState, action) => {
 };
 
 
-export const setUserAuthData = (userId, email, login) => ({
+export const setUserAuthData = (userId, email, login, isAuth) => ({
     type: SET_USER_DATA,
-    data: {userId, email, login}
+    payload: {userId, email, login, isAuth},
 });
 
 export const getAuthUserData = () =>
@@ -33,7 +32,7 @@ export const getAuthUserData = () =>
         authAPI.me().then(response => {
             if (response.data.resultCode === 0) {
                 let {id, email, login} = response.data.data;
-                dispatch(setUserAuthData(id, email, login));
+                dispatch(setUserAuthData(id, email, login, true));
             }
         });
     };
@@ -42,17 +41,17 @@ export const login = (email, password, rememberMe) =>
     (dispatch) => {
         authAPI.login(email, password, rememberMe).then(response => {
             if (response.data.resultCode === 0) {
-
-               /* alert(response.data.data.userId+'  '+ email+'  '+ email);
-                dispatch(setUserAuthData(response.data.data.userId, email, email));*/
-                authAPI.me().then(response => {
-                    if (response.data.resultCode === 0) {
-                        let {id, email, login} = response.data.data;
-                        dispatch(setUserAuthData(id, email, login));
-                    }
-                });
-            }else{
+                dispatch(getAuthUserData());
+            } else {
                 alert('Данные введены не верно')
+            }
+        });
+    };
+export const logout = () =>
+    (dispatch) => {
+        authAPI.logout().then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(setUserAuthData(null, null, null, false));
             }
         });
     };
