@@ -1,4 +1,5 @@
-import {authAPI, usersAPI} from "../api/api";
+import {authAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = 'SET_USER_DATA';
 
@@ -29,7 +30,7 @@ export const setUserAuthData = (userId, email, login, isAuth) => ({
 
 export const getAuthUserData = () =>
     (dispatch) => {
-        authAPI.me().then(response => {
+        return authAPI.me().then(response => {
             if (response.data.resultCode === 0) {
                 let {id, email, login} = response.data.data;
                 dispatch(setUserAuthData(id, email, login, true));
@@ -43,8 +44,11 @@ export const login = (email, password, rememberMe) =>
             if (response.data.resultCode === 0) {
                 dispatch(getAuthUserData());
             } else {
-                alert('Данные введены не верно')
+                let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error';
+                dispatch(stopSubmit('login', {_error: message}));
             }
+
+            //todo captcha
         });
     };
 export const logout = () =>

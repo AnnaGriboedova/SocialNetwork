@@ -3,14 +3,18 @@ import Profile from "./Profile";
 import {connect} from "react-redux";
 import {getStatus, getUserProfile, updateStatus} from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
         let userId = this.props.match.params.userId;
         if (!userId) {
-            userId = 6268
+            userId = this.props.authUserId;
+            if (!userId) {
+                this.props.history.push('/login')
+            }
+
+            //userId = 6268
         }
         this.props.getUserProfile(userId);
         this.props.getStatus(userId);
@@ -23,12 +27,14 @@ class ProfileContainer extends React.Component {
     }
 }
 
-let mapStateToProps = (state) => {
-    return {
+let mapStateToProps = (state) => (
+    {
         userProfile: state.profilePage.userProfile,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        authUserId: state.auth.userId,
+        isAuth: state.auth.isAuth
     }
-};
+);
 
 export default compose(
     connect(mapStateToProps, {

@@ -54,5 +54,4 @@ export default compose(
         unfollow,
         follow
     }),
-    withAuthRedirect
 )(UsersAPI);
