@@ -8,7 +8,6 @@ import {
     toggleIsFollowing
 } from "../../redux/usersReducer";
 import Users from "./Users";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {
     getCurrentPage,
@@ -22,11 +21,13 @@ import {
 
 class UsersAPI extends React.Component {
     componentDidMount() {
-        this.props.requestUsers(this.props.currentPage, this.props.pageSize);
+        const {currentPage, pageSize} = this.props;
+        this.props.requestUsers(currentPage, pageSize);
     }
 
     onPageChanged = (pageNum) => {
-        this.props.requestUsers(pageNum, this.props.pageSize);
+        const {pageSize} = this.props;
+        this.props.requestUsers(pageNum, pageSize);
     };
 
     render() {
@@ -43,17 +44,6 @@ class UsersAPI extends React.Component {
         />
     }
 }
-
-/*let mapStateToProps = (state) => {
-    return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        usersTotalCount: state.usersPage.usersTotalCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        onFollowingUsersId: state.usersPage.onFollowingUsersId
-    }
-};*/
 
 let mapStateToProps = (state) => {
     return {

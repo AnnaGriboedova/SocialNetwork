@@ -1,57 +1,27 @@
 import React from 'react'
 import styles from './Users.module.scss'
-import userPhoto from '../../assets/img/profile.png'
-import {NavLink} from "react-router-dom";
 import Preloader from "../common/Preloader/Preloader";
+import Paginator from "../common/Paginator/Paginator";
+import User from "./User";
 
-let Users = (props) => {
-    let pagesCount = Math.ceil(props.usersTotalCount / props.pageSize);
-    let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i);
-    }
+let Users = ({usersTotalCount, pageSize, currentPage, onPageChanged, ...props}) => {
     return <>
         {props.isFetching ? <Preloader/> : ''}
         <div className={styles.usersContainer}>
-            <div className={styles.usersPaginationWrapper}>
-                {pages.map(p => {
-                    return <span onClick={() => {
-                        props.onPageChanged(p)
-                    }} className={props.currentPage === p && styles.selectedPage}>{p}</span>
-                })}
-            </div>
-            {props.users.map(u => <div className={styles.userWrapper} key={u.id}>
-                <div className={styles.userProfile}>
-                    <div>
-                        <NavLink className={styles.profileImgLink} to={'profile/' + u.id}>
-                            <img className={styles.profileImg} alt={'profile image'}
-                                 src={u.photos.small !== null ? u.photos.small : userPhoto}/>
-                        </NavLink>
-                    </div>
-                </div>
-                <div className={styles.userInfoWrapper}>
-                    <div className={styles.userInfo}>
-                        <div className={styles.userName}>{u.name}</div>
-                        <div className={styles.userStatus}>{u.status}</div>
-                        <div className={styles.userButtonWrapper}>
-                            {u.followed ?
-                                <button disabled={props.onFollowingUsersId.some(id => id === u.id)} onClick={() => {
-                                    props.unfollow(u.id)
-                                }}>Unfollow</button> :
-                                <button disabled={props.onFollowingUsersId.some(id => id === u.id)} onClick={() => {
-                                    props.follow(u.id)
-                                }}>Follow</button>}
-                        </div>
-                    </div>
-                    <div>
-                        {/*<div>{u.location.country}</div>
-                    <div>{u.location.city}</div>*/}
-                    </div>
-                </div>
-            </div>)}
+            <Paginator itemsTotalCount={usersTotalCount} pageSize={pageSize} currentPage={currentPage}
+                       onPageChanged={onPageChanged}
+            />
+
+            {props.users.map(u =>
+                <User key={u.id}
+                      user={u}
+                      onFollowingUsersId={props.onFollowingUsersId}
+                      follow={props.follow}
+                      unfollow={props.unfollow}
+                />
+            )}
         </div>
     </>
-
 };
 
 export default Users;

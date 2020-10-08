@@ -61,9 +61,11 @@
           transition: 0.5s;
           background-size: 200% auto;
           background-image: linear-gradient(to right, #3827B0 0%, #C19AE0 51%, #C44A8A 100%);
-          &:disabled{
+
+          &:disabled {
             background: #c4c4c4;
           }
+
           &:not(&:disabled):hover {
             background-position: right center;
           }
@@ -72,15 +74,9 @@
     }
   }
 }
-.selectedPage{
-  font-weight: bold;
-}
 
 .profileImg {
   width: 80px;
   height: 80px;
   border-radius: 100%;
-}
-.usersPaginationWrapper{
-overflow: auto;
 }
