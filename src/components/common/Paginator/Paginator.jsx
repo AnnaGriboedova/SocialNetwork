@@ -9,8 +9,6 @@ let Paginator = (props) => {
         pages.push(i);
     }
 
-    console.log(pagesCount);
-
     let portionSize = props.portionSize || 10;
 
     let portionCount = Math.ceil(pagesCount / portionSize);
