@@ -1,13 +1,20 @@
 import React from 'react'
 import s from './ProfileInfo.module.scss'
 import Preloader from "../../common/Preloader/Preloader";
-import ProfileStatus from './ProfileStatus'
+import userPhoto from '../../../assets/img/profile.png'
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
 const ProfileInfo = (props) => {
     if (!props.userProfile) {
         return <Preloader/>
     }
+
+    const onMainPhotoSelected = (e) => {
+        if (e.target.files.length) {
+            props.savePhoto(e.target.files[0])
+        }
+    };
+
     return (
         <div>
             {/*<div>
@@ -16,7 +23,8 @@ const ProfileInfo = (props) => {
             </div>*/}
             <div>
                 <img className={s.image}
-                     src={props.userProfile.photos.large}/>
+                     src={props.userProfile.photos.large || userPhoto}/>
+                {props.isOwner && <input type='file' onChange={onMainPhotoSelected}/>}
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
             </div>
         </div>
