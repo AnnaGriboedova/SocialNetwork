@@ -1,10 +1,12 @@
 import {profileAPI, usersAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const DELETE_POST = 'DELETE_POST';
 const SET_USER_PHOTO = 'SET_USER_PHOTO';
+const TOGGLE_IS_UPDATE_PROFILE = 'TOGGLE_IS_UPDATE_PROFILE';
 
 let initialState = {
     posts: [
@@ -12,6 +14,7 @@ let initialState = {
         {id: 2, message: 'hi. i bad boy', likesCount: '3'}
     ],
     userProfile: null,
+    isUpdateProfile: false,
     status: ''
 };
 
@@ -39,6 +42,9 @@ const profileReducer = (state = initialState, action) => {
         }
         case SET_USER_PHOTO: {
             return {...state, userProfile: {...state.userProfile, photos: action.photos}}
+        }
+        case TOGGLE_IS_UPDATE_PROFILE: {
+            return {...state, isUpdateProfile: action.isUpdateProfile}
         }
     }
     return state
@@ -89,6 +95,11 @@ export const deletePost = (postId) => ({
     postId
 });
 
+export const toggleIsUpdateProfile = (isUpdateProfile) => ({
+    type: TOGGLE_IS_UPDATE_PROFILE,
+    isUpdateProfile
+});
+
 export const getStatus = (userId) =>
     async (dispatch) => {
         let response = await profileAPI.getStatus(userId);
@@ -105,5 +116,23 @@ export const updateStatus = (status) =>
         }
 
     };
+
+export const saveProfile = (profileData) =>
+    async (dispatch, getState) => {
+        dispatch(toggleIsUpdateProfile(true));
+
+        const userId = getState().auth.userId;
+        let response = await profileAPI.saveProfile(profileData);
+
+        if (response.data.resultCode === 0) {
+            dispatch(getUserProfile(userId));
+            dispatch(toggleIsUpdateProfile(false));
+        } else {
+            dispatch(stopSubmit("profileInfoForm", {_error: response.data.messages[0]}));
+            return Promise.reject(response.data.messages[0]);
+        }
+
+    };
+
 
 export default profileReducer;
