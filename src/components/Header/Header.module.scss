@@ -1,16 +1,33 @@
 @import "./../../variables";
 
 .header {
-    display: grid;
-    grid-area: h;
-    background-color: white;
-    grid-template-columns: 1fr 10fr 1fr;
-    grid-gap: 20px;
+  display: grid;
+  grid-gap: 50px;
+  align-self: start;
 
-}
-.header img{
-    align-self: center;
-    height: 80%;
-    grid-column-start: 2;
+  .header__logo {
+    width: 90%;
+    max-width: 100px;
     justify-self: center;
+  }
+
+  .profileInfo {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 15px;
+
+    align-items: center;
+
+    .profilePhoto {
+      max-width: 50px;
+      border-radius: 100%;
+    }
+
+    .profileFullName {
+      .profileFullNameTitle {
+        color: $meddleGrayColor;
+      }
+    }
+  }
+
 }

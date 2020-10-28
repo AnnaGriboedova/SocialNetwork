@@ -6,7 +6,6 @@ import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import UsersContainer from "./components/Users/UsersContainer";
-import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
@@ -28,9 +27,14 @@ class App extends React.Component {
         if (!this.props.initialized) {
             return <Preloader/>
         }
+
+        if (!this.props.isAuth) {
+            return <Login/>
+
+        }
+
         return (
             <div className='appWrapper'>
-                <HeaderContainer/>
                 <Navbar/>
                 <div className='contentContainer'>
                     <Route render={
@@ -45,9 +49,9 @@ class App extends React.Component {
                         <UsersContainer/>
                     } path='/users'/>
 
-                    <Route render={() =>
+                    {/*<Route render={() =>
                         <Login/>
-                    } path='/login'/>
+                    } path='/login'/>*/}
 
                     <Route render={() => <News/>} path='/news'/>
                     <Route render={() => <Music/>} path='/music'/>
@@ -61,6 +65,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => ({
     initialized: state.app.initialized,
+    isAuth: state.auth.isAuth,
 });
 
 const AppContainer = compose(

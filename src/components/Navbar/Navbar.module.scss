@@ -1,25 +1,11 @@
 @import "./../../variables";
 
-.navContainer{
-  grid-area: n;
-  padding: 30px;
+.navContainer {
   display: grid;
-  height: min-content;
-  .nav {
-    .item {
-      padding: 0 0 10px 0;
-      text-decoration: none;
-
-      a {
-        color: $darkGrayColor;
-        text-decoration: none;
-      }
-
-      a.active {
-        color: $violetColor;
-      }
-    }
-  }
+  padding: 30px 10%;
+  grid-template-rows: auto 1fr auto;
+  align-items: start;
+  background-color: white;
 
   .friendsBlock {
     .heading {
@@ -32,11 +18,13 @@
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       grid-gap: 15px;
+
       .friendItem {
         display: grid;
         grid-template-rows: 1fr minmax(10px, auto);
         text-align: center;
         grid-gap: 10px;
+
         .profileImage {
           grid-row-start: 1;
           justify-self: center;
@@ -46,6 +34,63 @@
 
         }
       }
+    }
+  }
+}
+
+.navWrapper {
+  padding-top: 30px;
+  display: grid;
+  grid-gap: 20px;
+  .navTitle {
+    color: $meddleGrayColor;
+  }
+
+  .nav {
+    .nav__item {
+      padding: 0 0 10px 0;
+      text-decoration: none;
+      padding: 10px 0;
+
+      a {
+        color: $mediumGrayColor;
+        text-decoration: none;
+        display: inline-grid;
+        grid-gap: 10px;
+        align-items: center;
+        grid-template-columns: auto 1fr;;
+      }
+
+      a.active {
+        color: $violetColor;
+      }
+
+      .nav__itemIcon {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background-size: contain;
+      }
+    }
+  }
+}
+
+.logoutBlock {
+  align-self: end;
+
+  a {
+    color: $mediumGrayColor;
+    text-decoration: none;
+    display: inline-grid;
+    grid-gap: 10px;
+    align-items: center;
+    grid-template-columns: auto 1fr;
+
+    .logoutBlock__icon {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background-size: contain;
     }
   }
 }
