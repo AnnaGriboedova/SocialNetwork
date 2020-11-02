@@ -1,4 +1,7 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
+import s from '../Profile.module.scss'
+
+import thinkingIcon from "../../../assets/img/icons/thinking.svg"
 
 const ProfileStatusWithHooks = (props) => {
     let [editMode, setEditMode] = useState(false);
@@ -23,17 +26,18 @@ const ProfileStatusWithHooks = (props) => {
     };
 
     return (
-        <div>
+        <div className={s.profileStatusWrap}>
             {!editMode &&
-            <div>
-                <span onDoubleClick={activateEditMode}>{props.status || '---------'}</span>
-            </div>
+            <span className={s.profileStatusContainer}>
+                <span className={s.profileStatusIcon} style={{backgroundImage: `url(${thinkingIcon})`}}></span>
+                <span className={s.profileStatus} onDoubleClick={activateEditMode}>{props.status || '---------'}</span>
+            </span>
             }
             {editMode &&
-            <div>
-                <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
-                       value={status}/>
-            </div>
+
+            <input onChange={onStatusChange} autoFocus={true} onBlur={deactivateEditMode}
+                   value={status}/>
+
             }
         </div>
     )

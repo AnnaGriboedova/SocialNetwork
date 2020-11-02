@@ -37,25 +37,27 @@ class App extends React.Component {
             <div className='appWrapper'>
                 <Navbar/>
                 <div className='contentContainer'>
-                    <Route render={
-                        withSuspense(DialogsContainer)
-                    } path='/dialogs'/>
+                    <div className="container">
+                        <Route render={
+                            withSuspense(DialogsContainer)
+                        } path='/dialogs'/>
 
-                    <Route render={
-                        withSuspense(ProfileContainer)
-                    } path='/profile/:userId?'/>
+                        <Route render={
+                            withSuspense(ProfileContainer)
+                        } path='/profile/:userId?'/>
 
-                    <Route render={() =>
-                        <UsersContainer/>
-                    } path='/users'/>
+                        <Route render={() =>
+                            <UsersContainer/>
+                        } path='/users'/>
 
-                    {/*<Route render={() =>
+                        {/*<Route render={() =>
                         <Login/>
                     } path='/login'/>*/}
 
-                    <Route render={() => <News/>} path='/news'/>
-                    <Route render={() => <Music/>} path='/music'/>
-                    <Route render={() => <Settings/>} path='/settings'/>
+                        <Route render={() => <News/>} path='/news'/>
+                        <Route render={() => <Music/>} path='/music'/>
+                        <Route render={() => <Settings/>} path='/settings'/>
+                    </div>
                 </div>
             </div>
         );

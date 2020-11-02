@@ -1,7 +1,7 @@
 @import "variables";
 
 body {
-  background: $lightGrayColor;
+  background: $lightGrayVioletColor;
   margin: 0;
   font-family: sans-serif;
 }
@@ -23,17 +23,20 @@ body * {
 }
 
 .appWrapper {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  min-height: 100vh;
+
 }
 
 .contentContainer {
-  padding: 30px 10vw 30px 10vw;
+  padding: 30px 0 30px 300px;
+  display: grid;
+  justify-items: center;
 }
 
 .container {
-
+  width: 100%;
+  max-width: 90%;
+  display: grid;
+  justify-items: start;
 }
 
 .smProfileIcon {

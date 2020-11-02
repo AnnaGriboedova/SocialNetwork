@@ -1,5 +1,5 @@
 import React from 'react'
-import s from './MyPosts.module.scss'
+import s from './../Profile.module.scss'
 import Post from "./Post/Post";
 import {Field, reduxForm} from "redux-form";
 import {maxLengthCreator, required} from "../../../utils/validators/validators";
@@ -22,7 +22,7 @@ const MyPosts = React.memo(props => {
     };
 
     return (
-        <div>
+        <div className={s.postsWrapper}>
             My posts
             <AddPostReduxForm onSubmit={addPost}/>
             <div className={s.posts}>
