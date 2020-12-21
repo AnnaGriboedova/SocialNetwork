@@ -1,0 +1,97 @@
+@import "./../../../variables";
+
+.wrap {
+  position: relative;
+
+  .openBtn {
+    cursor: pointer;
+    padding: 0;
+    background-color: transparent;
+    display: inline-block;
+    border: 0 none;
+    font-size: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    img {
+      width: 25px;
+      height: 25px;
+    }
+
+    &:focus {
+      outline: 0 none;
+    }
+  }
+}
+
+.listWrap {
+  font-family: Segoe UI Emoji;
+  display: grid;
+  min-width: 270px;
+  width: 90%;
+  grid-gap: 10px;
+  border-radius: 8px;
+  grid-template-columns: auto 1fr;
+  box-shadow: 0px 0px 3px 3px $lightVioletColor05;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background: white;
+  transform: translate(0, 100%);
+
+  .buttonsWrap {
+    border-right: 2px solid $lightGrayColor;
+
+    .buttonWrap {
+
+    }
+
+    .button {
+      background: none;
+      border: 0 none;
+      outline: 0 none;
+      width: 45px;
+      height: 35px;
+      padding: 4px 0;
+      font-size: 21px;
+      cursor: pointer;
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      .BtnIcon{
+        display: inline-block;
+        width: 80%;
+        height: 90%;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+
+    .active {
+      background: $lightGrayColor !important;
+    }
+  }
+
+  .listScrollWrap {
+    overflow: auto;
+    height: 100%;
+    position: relative;
+  }
+
+  .list {
+    position: absolute;
+    width: 100%;
+    padding: 4px 10px 4px 0;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+
+    .emoji {
+      overflow: hidden;
+      cursor: pointer;
+    }
+  }
+}

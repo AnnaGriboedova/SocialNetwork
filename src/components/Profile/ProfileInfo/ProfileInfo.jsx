@@ -4,9 +4,10 @@ import Preloader from "../../common/Preloader/Preloader";
 import userPhoto from '../../../assets/img/profile.png'
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import ProfileInfoEdit from "./ProfileInfoEdit";
+import cn from 'classnames'
+
 
 import editIcon from "../../../assets/img/icons/edit.svg"
-
 
 import instagram from "../../../assets/img/icons/soc-network/instagram.svg"
 import vk from "../../../assets/img/icons/soc-network/vk.svg"
@@ -39,8 +40,8 @@ const ProfileInfoContainer = (props) => {
     };
 
     return (
-        <div className={s.profileWrap}>
-            <div className={s.profileInfoWrap}>
+        <div className={cn('infoBlocksWrap', s.profileWrap)}>
+            <div className={cn('infoBlock', s.profileInfoWrap)}>
                 <div className={s.profilePhotoWrap}>
                     <img className={s.profilePhoto}
                          src={props.userProfile.photos.large || userPhoto}/>
@@ -101,7 +102,7 @@ const ProfileInfo = (props) => {
     };
 
     return <div className={s.infoWrap}>
-        <div className={s.profileInfoBlockWrap}>
+        <div className={cn('infoBlock', s.profileInfoBlockWrap)}>
 
             <div className={s.profileInfoBlock__title}>Job</div>
             <b>

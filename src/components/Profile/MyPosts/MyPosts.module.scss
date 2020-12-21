@@ -1,0 +1,58 @@
+@import "../../../variables";
+
+.postsWrapper {
+  display: grid;
+  align-items: start;
+  grid-template-rows: auto 1fr;
+}
+
+
+.form {
+  &.open {
+    .postInfo {
+      border-bottom: 1px solid $lightGrayColor;
+      padding: 0 0 15px 0;
+    }
+
+    .messageInput {
+      height: auto;
+      min-height: 90px;
+    }
+  }
+
+  .postInfo {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    grid-gap: 15px;
+  }
+
+  .messageWrap {
+    color: $mediumGrayColor;
+    font-size: inherit;
+  }
+
+  .messageInput {
+    border: 0 none;
+    outline: 0 !important;
+    resize: none;
+    width: 100%;
+    padding: 8px 0 0 0;
+    height: 35px;
+
+    &::placeholder {
+      font-size: 16px;
+      color: $mediumGrayColor;
+      font-family: sans-serif;
+    }
+  }
+
+  .sendPost {
+    padding: 15px 0 0 0;
+    display: grid;
+
+    .sendBtn {
+      justify-self: end;
+    }
+  }
+}

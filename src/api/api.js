@@ -8,6 +8,23 @@ const instance = axios.create({
     }
 });
 
+const instanceEmoji = axios.create({
+    baseURL: 'https://emoji-api.com/',
+    headers: {
+        "API-KEY": 'df363abb0aaceb6736b1e98b26ac4127aa5a6e4e',
+        'Content-Type': 'application/json'
+    }
+});
+
+export const emojiApi = {
+    getEmojiCategory() {
+        return instanceEmoji.get('categories?access_key=df363abb0aaceb6736b1e98b26ac4127aa5a6e4e')
+    },
+    getSubcategoryEmojis(categorySlug) {
+        return instanceEmoji.get(`categories/${categorySlug}?access_key=df363abb0aaceb6736b1e98b26ac4127aa5a6e4e`)
+    },
+};
+
 export const usersAPI = {
     getUsers(currentPage = 1, pageSize = 10) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`).then(response => {

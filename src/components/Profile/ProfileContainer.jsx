@@ -5,6 +5,7 @@ import {getStatus, getUserProfile, updateStatus, savePhoto, saveProfile} from ".
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {getAuthUserId} from "../../redux/authSelectors";
+import {getUserProfileSelector} from "../../redux/profileSelectors";
 
 class ProfileContainer extends React.Component {
     refreshProfile() {
@@ -40,7 +41,7 @@ class ProfileContainer extends React.Component {
 
 let mapStateToProps = (state) => (
     {
-        userProfile: state.profilePage.userProfile,
+        userProfile: getUserProfileSelector(state),
         status: state.profilePage.status,
         authUserId: getAuthUserId(state),
         isAuth: state.auth.isAuth,

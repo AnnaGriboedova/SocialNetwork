@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 import Navbar from "./components/Navbar/Navbar";
-import {HashRouter, Route, withRouter} from "react-router-dom";
+import {HashRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
@@ -21,7 +21,17 @@ const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileCo
 class App extends React.Component {
     componentDidMount() {
         this.props.initializeApp();
+        window.addEventListener("unhandledrejection", this.catchAllUnhandedErrors)
     }
+
+    componentWillUnmount() {
+        window.removeEventListener("unhandledrejection", this.catchAllUnhandedErrors)
+    }
+
+    catchAllUnhandedErrors = (e) => {
+        alert("Внимание: Необработанная ошибка Promise. Причина: "
+            + e.reason);
+    };
 
     render() {
         if (!this.props.initialized) {
@@ -37,26 +47,33 @@ class App extends React.Component {
             <div className='appWrapper'>
                 <Navbar/>
                 <div className='contentContainer'>
-                    <div className="container">
-                        <Route render={
-                            withSuspense(DialogsContainer)
-                        } path='/dialogs'/>
+                    <div className="postInfo">
+                        <Switch>
+                            <Route exact render={() => <Redirect to={'/profile'}/>
+                            } path='/'/>
 
-                        <Route render={
-                            withSuspense(ProfileContainer)
-                        } path='/profile/:userId?'/>
+                            <Route render={
+                                withSuspense(DialogsContainer)
+                            } path='/dialogs'/>
 
-                        <Route render={() =>
-                            <UsersContainer/>
-                        } path='/users'/>
+                            <Route render={
+                                withSuspense(ProfileContainer)
+                            } path='/profile/:userId?'/>
 
-                        {/*<Route render={() =>
+                            <Route render={() =>
+                                <UsersContainer/>
+                            } path='/users'/>
+
+                            {/*<Route render={() =>
                         <Login/>
                     } path='/login'/>*/}
 
-                        <Route render={() => <News/>} path='/news'/>
-                        <Route render={() => <Music/>} path='/music'/>
-                        <Route render={() => <Settings/>} path='/settings'/>
+                            <Route render={() => <News/>} path='/news'/>
+                            <Route render={() => <Music/>} path='/music'/>
+                            <Route render={() => <Settings/>} path='/settings'/>
+
+                            <Route render={() => <div>404 not found</div>} path='*'/>
+                        </Switch>
                     </div>
                 </div>
             </div>
@@ -78,6 +95,7 @@ const AppContainer = compose(
 )(App);
 
 const SocialNetworkApp = () => {
+    //use BrowserRouter for hosting; if github page hosting - use HashRouter
     return <HashRouter>
         <Provider store={store}>
             <AppContainer/>
