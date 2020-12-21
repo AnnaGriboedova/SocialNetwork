@@ -1,0 +1,1 @@
+{"version":3,"sources":["math.js"],"names":["add","a","b"],"mappings":"0GAAO,SAASA,EAAIC,EAAGC,GACnB,OAAOD,EAAIC,EADf","file":"static/js/5.926f8647.chunk.js","sourcesContent":["export function add(a, b) {\r\n    return a + b;\r\n}"],"sourceRoot":""}
