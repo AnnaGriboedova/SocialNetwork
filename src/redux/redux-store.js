@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
-import profileReducer from "./profileReducer";
+import profileReducer, {ADD_POST} from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import navbarReducer from "./navbarReducer";
 import usersReducer from "./usersReducer";
@@ -15,7 +15,16 @@ let reducers = combineReducers({
     navbar: navbarReducer,
     usersPage: usersReducer,
     auth: authReducer,
-    form: formReducer
+    form: formReducer.plugin({
+        profileAddPostForm: (state, action) => {
+            switch (action.type) {
+                case ADD_POST:
+                    return undefined;
+                default:
+                    return state;
+            }
+        }
+    })
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(

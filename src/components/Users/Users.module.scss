@@ -37,14 +37,13 @@
       grid-template-rows: auto 1fr auto;
       grid-gap: 10px;
 
-      .userName {
+      .userNameWrap {
         color: #28282a;
         font-weight: bold;
 
       }
 
       .userStatus {
-        // margin-top: 10px;
         color: #5F5F5F;
       }
 

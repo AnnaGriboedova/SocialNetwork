@@ -1,5 +1,5 @@
 import React from 'react'
-import {addPostActionCreator} from "../../../redux/profileReducer";
+import {addPost} from "../../../redux/profileReducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 import {getUserProfileSelector} from "../../../redux/profileSelectors";
@@ -8,7 +8,6 @@ import {change, blur} from "redux-form";
 const mapStateToProps = (state) => {
     return {
         posts: state.profilePage.posts,
-        newPostText: state.profilePage.newPostText,
         authUserProfile: state.auth.authUserProfile,
         userProfile: getUserProfileSelector(state),
         emojisByCategory: state.app.emojisByCategory
@@ -22,8 +21,8 @@ const mapDispatchToProps = (dispatch) => {
         blurFieldValue: (formName, fieldName, newFieldValue) => {
             dispatch(blur(formName, fieldName, newFieldValue))
         },
-        addPost: (newPostText) => {
-            dispatch(addPostActionCreator(newPostText));
+        addPost: (post) => {
+            return dispatch(addPost(post));
         },
 
     }

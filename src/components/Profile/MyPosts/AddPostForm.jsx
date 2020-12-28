@@ -11,17 +11,19 @@ import {connect} from "react-redux";
 let AddPostForm = (props) => {
 
     useEffect(() => {
-        if (!isFormOpen && props.newPostText) {
+        if (!isFormOpen && props.message) {
             setIsFormOpen(true);
+        } else if (isFormOpen && !props.message) {
+            setIsFormOpen(false);
         }
-    }, [props.newPostText]);
+    }, [props.message]);
 
     let [isFormOpen, setIsFormOpen] = useState(false);
 
     const onBlur = (e) => {
         e.preventDefault();
 
-        props.blurFieldValue('profileAddPostForm', 'newPostText');
+        props.blurFieldValue('profileAddPostForm', 'message');
 
         if (!e.target.value) {
             setIsFormOpen(false)
@@ -33,7 +35,7 @@ let AddPostForm = (props) => {
         setIsFormOpen(true);
     };
     const change = (newVal) => {
-        props.changeFieldValue('profileAddPostForm', 'newPostText', (props.newPostText || '') + newVal);
+        props.changeFieldValue('profileAddPostForm', 'message', (props.message || '') + newVal);
     };
 
 
@@ -46,7 +48,7 @@ let AddPostForm = (props) => {
                     <Field onFocus={onFocus} onBlur={onBlur}
                            placeholder={'Type something to ' + props.userName}
                            className={cn(s.messageInput)}
-                           component={Textarea} name={'newPostText'}/>
+                           component={Textarea} name={'message'}/>
                 </div>
                 <Emoji change={change}/>
             </div>
@@ -66,10 +68,10 @@ AddPostForm = reduxForm({
 
 const selector = formValueSelector('profileAddPostForm');
 AddPostForm = connect(state => {
-    const newPostText = selector(state, 'newPostText');
+    const message = selector(state, 'message');
 
     return {
-        newPostText
+        message
     }
 })(AddPostForm);
 

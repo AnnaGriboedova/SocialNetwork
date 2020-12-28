@@ -1,7 +1,7 @@
 import {profileAPI, usersAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 
-const ADD_POST = 'ADD-POST';
+export const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const DELETE_POST = 'DELETE_POST';
@@ -10,8 +10,20 @@ const TOGGLE_IS_UPDATE_PROFILE = 'TOGGLE_IS_UPDATE_PROFILE';
 
 let initialState = {
     posts: [
-        {id: 1, message: 'i love you', likesCount: '100'},
-        {id: 2, message: 'hi. i bad boy', likesCount: '3'}
+        {
+            user: {userName: 'Alena B'},
+            id: 1,
+            message: 'this site is under construction',
+            likesCount: '2',
+            date: new Date(2018, 6, 12, 11, 24, 32)
+        },
+        {
+            user: {userName: 'Andrey'},
+            id: 2,
+            message: 'looking for a job React developer',
+            likesCount: '3',
+            date: new Date(2018, 8, 23, 15, 20, 1)
+        }
     ],
     userProfile: null,
     isUpdateProfile: false,
@@ -21,14 +33,9 @@ let initialState = {
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_POST: {
-            let post = {
-                id: 5,
-                message: action.newPostText,
-                likesCount: 0
-            };
             return {
                 ...state,
-                posts: [...state.posts, post],
+                posts: [...state.posts, action.post],
             };
         }
         case DELETE_POST: {
@@ -50,9 +57,33 @@ const profileReducer = (state = initialState, action) => {
     return state
 };
 
-export const addPostActionCreator = (newPostText) => ({
+export const addPost = (post) =>
+    async (dispatch) => {
+        let responsePost = {...post};
+
+        let promise = await new Promise(resolve => setTimeout(function () {
+            resolve();
+        }, 3000));
+
+        (() => {
+            function randomInteger(min, max) {
+                let rand = min - 0.5 + Math.random() * (max - min + 1);
+                return Math.round(rand);
+            }
+
+            responsePost.date = new Date();
+            responsePost.id = randomInteger(3, 50000);
+            responsePost.likesCount = 0;
+        })();
+
+        dispatch(addPostActionCreator(responsePost));
+        return promise;
+
+    };
+
+export const addPostActionCreator = (post) => ({
     type: ADD_POST,
-    newPostText
+    post
 });
 
 export const setUserProfile = (userProfile) => ({

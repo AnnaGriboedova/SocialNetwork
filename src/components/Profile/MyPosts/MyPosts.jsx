@@ -1,27 +1,28 @@
 import React from 'react'
 import s from './MyPosts.module.scss'
 import Post from "./Post/Post";
-import {maxLengthCreator} from "../../../utils/validators/validators";
+import userPhoto from "../../../assets/img/profile.png";
 import cn from 'classnames'
 import AddPostForm from "./AddPostForm";
 
 const MyPosts = React.memo(props => {
-    let postsElements = props.posts.map(p => <Post message={p.message} like={p.likesCount}/>);
+    let postsCopy = [...props.posts];
+    let postsSortByDate = postsCopy.sort((a, b) => new Date(b.date) - new Date(a.date));
+    let postsElements = postsSortByDate.map(p => <Post date={p.date || new Date()}
+                                                       name={(p.user && p.user.userName) || 'Name'}
+                                                       photo={(p.user && p.user.userPhoto) || userPhoto}
+                                                       message={p.message}
+                                                       like={p.likesCount}/>);
 
-    let newPostElement = React.createRef();
-    const onAddPost = () => {
-        props.addPost();
-    };
-    const onPostChange = () => {
-        let text = newPostElement.current.value;
-        props.updateNewPostText(text);
-    };
 
     const addPost = (values) => {
-        import("../../../math").then(math => {
-            console.log(math.add(16, 26));
-        });
-        // props.addPost(values.newPostText);
+        let userPhoto = props.authUserProfile.photos.small;
+        let userName = props.authUserProfile.fullName;
+
+
+        props.addPost({user: {userPhoto, userName}, message: values.message}).then(() => {
+            debugger
+        })
     };
 
 
@@ -31,13 +32,14 @@ const MyPosts = React.memo(props => {
                          blurFieldValue={props.blurFieldValue}
                          changeFieldValue={props.changeFieldValue} onSubmit={addPost}
                          userName={props.userProfile.fullName}/>
-            <div className={cn('infoBlock', s.posts)}>
+            <div className={s.posts}>
+                <h3 className={s.postsHeading}>Publications</h3>
                 {postsElements}
             </div>
+
         </div>
     )
 });
-
 
 
 export default MyPosts;
