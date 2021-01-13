@@ -1,4 +1,5 @@
-@import "../../../../variables";
+@import "../../../../assets/styles/variables";
+@import "../../../../assets/styles/fonts";
 
 .wrapper {
   img {
@@ -17,7 +18,8 @@
   }
 
   .userName {
-
+    font-family: AssistantSemiBold, sans-serif;
+    color: $darkGrayColor;
   }
 
   .postDate {

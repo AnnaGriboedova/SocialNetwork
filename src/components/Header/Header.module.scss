@@ -1,14 +1,15 @@
-@import "./../../variables";
+@import "../../assets/styles/variables";
+@import "../../assets/styles/fonts";
 
 .header {
   display: grid;
-  grid-gap: 50px;
+  grid-gap: 30px;
   align-self: start;
   width: 100%;
 
   .header__logo {
     width: 90%;
-    max-width: 100px;
+    max-width: 90px;
     justify-self: center;
   }
 
@@ -20,9 +21,7 @@
     align-items: center;
 
     .profileFullName {
-      .profileFullNameTitle {
-        color: $meddleGrayColor;
-      }
+      font-family: AssistantBold, sans-serif;
     }
   }
 

@@ -1,9 +1,10 @@
-@import "variables";
+@import "assets/styles/variables";
+@import "assets/styles/fonts";
 
 body {
-  background: $lightGrayVioletColor;
+  background: $lightGrayColorBg;
   margin: 0;
-  font-family: sans-serif;
+  font-family: AssistantRegular, sans-serif;
 }
 
 body * {
@@ -20,6 +21,14 @@ body * {
   url('fonts/AXIS-ExtraBold/AXIS-ExtraBold.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+}
+
+::placeholder {
+  font-family: AssistantSemiBold, sans-serif !important;
+}
+
+button, textarea, input {
+  font-family: AssistantRegular, sans-serif;
 }
 
 .appWrapper {
@@ -46,25 +55,41 @@ body * {
 
 .infoBlock {
   background: white;
-  border-radius: 8px;
+  border-radius: 20px;
   padding: 20px;
-  box-shadow: 0px 0px 3px 0px $lightVioletColor05;
+  box-shadow: 0px 0px 10px 0px $lightGrayColor05;
 }
 
 .button {
   min-width: 100px;
   min-height: 35px;
   padding: 0 15px;
-  background: $violetColor;
+  background: $greenColor;
   color: white;
   border-radius: 8px;
   border: 0 none;
   cursor: pointer;
   outline: 0 none;
 
+  &:disabled {
+    background: $mediumGrayColor;
+    opacity: 0.5;
+  }
+
   &:focus {
     outline: 0 none;
   }
+}
+
+.title--sm--greyColor {
+  color: $middleGrayColor;
+  font-family: AssistantSemiBold, sans-serif;
+}
+
+.title--md-greyColor {
+  color: $middleGrayColor;
+  font-family: AssistantBold, sans-serif;
+  font-size: 20px;
 }
 
 .smProfileIcon {
@@ -73,4 +98,40 @@ body * {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.copyBlock {
+  max-width: 200px;
+  width: 100%;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+
+  .copyBlock__btnWrap {
+    display: inline-grid;
+    justify-items: end;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 44px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, white 37%, white 100%);
+
+    .copyBlock__btn {
+      background-color: $middleGrayColor2;
+      border: 0 none;
+      mask: url("assets/img/icons/copy.svg") no-repeat 50% 50%;
+      mask-size: 70%;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100% 70%;
+      height: 100%;
+      width: 22px;
+      cursor: pointer;
+
+      &:focus {
+        background: $greenColor;
+      }
+    }
+  }
 }

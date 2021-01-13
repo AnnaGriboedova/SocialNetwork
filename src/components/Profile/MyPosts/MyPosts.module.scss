@@ -1,4 +1,4 @@
-@import "../../../variables";
+@import "../../../assets/styles/variables";
 
 .postsWrapper {
   display: grid;
@@ -59,7 +59,6 @@
 
 .postsHeading {
   margin: 0;
-  color: $meddleGrayColor;
 }
 
 .posts {

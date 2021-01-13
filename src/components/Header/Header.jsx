@@ -1,6 +1,6 @@
 import React from 'react'
 import s from './Header.module.scss'
-import logo from './logo1.png';
+import logo from '../../logo.svg';
 import Preloader from "../common/Preloader/Preloader";
 import UserSmallPhoto from "../common/UserSmallPhoto/UserSmallPhoto";
 
@@ -14,7 +14,7 @@ const Header = (props) => {
             <div className={s.profileInfoWrap}>
                 <UserSmallPhoto photo={props.authUserProfile.photos.small} styles={{circle: true, size: 'md'}}/>
                 {props.isAuth && <span className={s.profileFullName}><span
-                    className={s.profileFullNameTitle}>Welcome,</span><br/>{props.login}</span>}
+                    className={'title--sm--greyColor'}>Welcome,</span><br/>{props.login}</span>}
             </div>
         </header>
     )

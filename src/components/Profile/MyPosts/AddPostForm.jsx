@@ -55,7 +55,7 @@ let AddPostForm = (props) => {
 
             {isFormOpen &&
             <div className={s.sendPost}>
-                <button className={cn(s.sendBtn, 'button')}>Add Post</button>
+                <button disabled={props.isFetching} className={cn(s.sendBtn, 'button')}>Add Post</button>
             </div>
             }
         </form>
@@ -67,13 +67,26 @@ AddPostForm = reduxForm({
 })(AddPostForm);
 
 const selector = formValueSelector('profileAddPostForm');
-AddPostForm = connect(state => {
+
+const AddPostFormContainer = (props) => {
+    let [isFetching, setIsFetching] = useState(false);
+    const addPost = (values) => {
+        let userPhoto = props.authUserProfile.photos.small;
+        let userName = props.authUserProfile.fullName;
+
+        setIsFetching(true);
+        props.addPost({user: {userPhoto, userName}, message: values.message}).then(() => {
+            setIsFetching(false)
+        })
+    };
+
+    return <AddPostForm onSubmit={addPost} isFetching={isFetching} {...props}/>
+};
+
+export default connect(state => {
     const message = selector(state, 'message');
 
     return {
         message
     }
-})(AddPostForm);
-
-
-export default AddPostForm;
+})(AddPostFormContainer);

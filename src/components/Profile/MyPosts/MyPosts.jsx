@@ -15,25 +15,14 @@ const MyPosts = React.memo(props => {
                                                        like={p.likesCount}/>);
 
 
-    const addPost = (values) => {
-        let userPhoto = props.authUserProfile.photos.small;
-        let userName = props.authUserProfile.fullName;
-
-
-        props.addPost({user: {userPhoto, userName}, message: values.message}).then(() => {
-            debugger
-        })
-    };
-
-
     return (
         <div className={cn('infoBlocksWrap', s.postsWrapper)}>
             <AddPostForm userProfile={props.userProfile} authUserProfile={props.authUserProfile}
-                         blurFieldValue={props.blurFieldValue}
-                         changeFieldValue={props.changeFieldValue} onSubmit={addPost}
+                         blurFieldValue={props.blurFieldValue} addPost={props.addPost}
+                         changeFieldValue={props.changeFieldValue}
                          userName={props.userProfile.fullName}/>
             <div className={s.posts}>
-                <h3 className={s.postsHeading}>Publications</h3>
+                <h3 className={cn(s.postsHeading, 'title--md-greyColor')}>Publications</h3>
                 {postsElements}
             </div>
 

@@ -1,8 +1,9 @@
-@import "./../../variables";
+@import "../../assets/styles/variables";
 
-.dialogs{
+.dialogs {
   padding: 30px;
-  .heading{
+
+  .heading {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 1;
@@ -10,27 +11,32 @@
     color: $darkGrayColor;
     font-family: AXISExtraBold, sans-serif;
   }
-  .dialogsWrapper{
+
+  .dialogsWrapper {
     display: grid;
     grid-template-columns: 5fr 7fr;
-    .dialogsList{
-      .dialog{
+
+    .dialogsList {
+      .dialog {
         display: grid;
         grid-template-columns: 60px auto;
         column-gap: 10px;
         margin-bottom: 20px;
-        .dialog__profileImg{
+
+        .dialog__profileImg {
           grid-column-start: 1;
           grid-column-end: 2;
         }
-        .dialogInfo{
+
+        .dialogInfo {
           align-self: center;
         }
       }
     }
-    .messagesList{
-      .message{
-        .message__profileImg{
+
+    .messagesList {
+      .message {
+        .message__profileImg {
 
         }
       }

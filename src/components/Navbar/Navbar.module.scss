@@ -1,4 +1,5 @@
-@import "./../../variables";
+@import "../../assets/styles/variables";
+@import "../../assets/styles/fonts";
 
 .navContainer {
   position: fixed;
@@ -7,11 +8,11 @@
   width: 300px;
   display: grid;
   height: 100vh;
-  padding: 30px 20px;
+  padding: 20px;
   grid-template-rows: auto 1fr auto;
   align-items: start;
   background-color: white;
-  box-shadow: 0px 0px 10px 0px $lightVioletColor05;
+  box-shadow: 0px 0px 10px 0px $lightGrayColor05;
 
   .friendsBlock {
     .heading {
@@ -48,13 +49,9 @@
   padding-top: 30px;
   display: grid;
   grid-gap: 20px;
-  .navTitle {
-    color: $meddleGrayColor;
-  }
 
   .nav {
     .nav__item {
-      padding: 0 0 10px 0;
       text-decoration: none;
       padding: 10px 0;
 
@@ -64,11 +61,15 @@
         display: inline-grid;
         grid-gap: 10px;
         align-items: center;
-        grid-template-columns: auto 1fr;;
+        grid-template-columns: auto 1fr;
       }
 
       a.active {
-        color: $violetColor;
+        color: $greenColor;
+
+        .nav__itemIcon {
+          background: $greenColor;
+        }
       }
 
       .nav__itemIcon {
@@ -76,6 +77,37 @@
         width: 18px;
         height: 18px;
         background-size: contain;
+        background-color: $mediumGrayColor;
+
+        &.nav__itemIcon--profile {
+          mask: url(../../assets/img/icons/nav/profile.svg) no-repeat 50% 50%;
+          mask-size: cover;
+        }
+
+        &.nav__itemIcon--users {
+          mask: url(../../assets/img/icons/nav/group-profile-users.svg) no-repeat 50% 50%;
+          mask-size: cover;
+        }
+
+        &.nav__itemIcon--messages {
+          mask: url(../../assets/img/icons/nav/chat.svg) no-repeat 50% 50%;
+          mask-size: cover;
+        }
+
+        &.nav__itemIcon--news {
+          mask: url(../../assets/img/icons/nav/newspaper.svg) no-repeat 50% 50%;
+          mask-size: cover;
+        }
+
+        &.nav__itemIcon--music {
+          mask: url(../../assets/img/icons/nav/music.svg) no-repeat 50% 50%;
+          mask-size: cover;
+        }
+
+        &.nav__itemIcon--settings {
+          mask: url(../../assets/img/icons/nav/settings.svg) no-repeat 50% 50%;
+          mask-size: cover;
+        }
       }
     }
   }

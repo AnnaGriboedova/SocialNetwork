@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import s from '../Profile.module.scss'
 import Preloader from "../../common/Preloader/Preloader";
+import Contacts from "../Contacts/Contacts";
 import userPhoto from '../../../assets/img/profile.png'
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import ProfileInfoEdit from "./ProfileInfoEdit";
@@ -9,14 +10,9 @@ import cn from 'classnames'
 
 import editIcon from "../../../assets/img/icons/edit.svg"
 
-import instagram from "../../../assets/img/icons/soc-network/instagram.svg"
-import vk from "../../../assets/img/icons/soc-network/vk.svg"
-import twitter from "../../../assets/img/icons/soc-network/twitter.svg"
-import facebook from "../../../assets/img/icons/soc-network/facebook.svg"
-import github from "../../../assets/img/icons/soc-network/github.svg"
-import youtube from "../../../assets/img/icons/soc-network/youtube.svg"
 import MyPostsContainer from "../MyPosts/MyPostsContainer";
 
+import camera from "../../../assets/img/icons/camera.svg"
 
 const ProfileInfoContainer = (props) => {
 
@@ -46,7 +42,19 @@ const ProfileInfoContainer = (props) => {
                     <img className={s.profilePhoto}
                          src={props.userProfile.photos.large || userPhoto}/>
                     {props.isOwner &&
-                    <input className={s.profilePhotoInput} type='file' onChange={onMainPhotoSelected}/>}
+                    <div className={s.photoChangeWrap}>
+                        <div className={s.photoChange}>
+                            <span className={s.photoChange__info}>
+                                <span className={s.photoChange__infoIcon}
+                                      style={{backgroundImage: `url(${camera})`}}></span>
+                            </span>
+                            <label htmlFor="custom-file-upload" className={s.photoChange__label}>
+                                <span className={s.photoChange__changeLink}>Change photo</span>
+                                <input name="attachment-file" id="custom-file-upload" className={s.photoChange__input}
+                                       type='file' onChange={onMainPhotoSelected}/>
+                            </label>
+                        </div>
+                    </div>}
                 </div>
 
                 <div className={s.profileInfo}>
@@ -90,24 +98,13 @@ const ProfileInfoContainer = (props) => {
 const ProfileInfo = (props) => {
     const {lookingForAJob, lookingForAJobDescription, fullName, contacts, aboutMe} = props.userProfile;
 
-    let isEmptyContactsArrValues = !Object.values(contacts).some(value => !!value);
-
-    let socNetworkIcons = {
-        vk,
-        instagram,
-        twitter,
-        facebook,
-        github,
-        youtube
-    };
-
     return <div className={s.infoWrap}>
         <div className={cn('infoBlock', s.profileInfoBlockWrap)}>
 
-            <div className={s.profileInfoBlock__title}>Job</div>
-            <b>
+            <div className={cn(s.profileInfoBlock__title, 'title--md-greyColor')}>Job</div>
+            <div className={cn('title--sm--greyColor')}>
                 Looking For A Job: {lookingForAJob ? 'yes' : 'no'}
-            </b>
+            </div>
             <div className={s.profileInfoBlock__desc}>
 
                 {lookingForAJobDescription &&
@@ -117,25 +114,10 @@ const ProfileInfo = (props) => {
                 }
             </div>
 
-            {
-                Object.keys(contacts).length !== 0 && contacts.constructor === Object && !isEmptyContactsArrValues &&
-                <div className={s.contacts}>
-                    {Object.keys(contacts).map(key => {
-                        if (contacts[key]) {
-                            return <div className={s.contactWrap}>
-                                <a className={s.contact} href={contacts[key]}>
-                                    {socNetworkIcons[key] &&
-                                    <img className={s.contactIcon} src={socNetworkIcons[key]}/>}
-                                    {contacts[key]}
-                                </a>
-                            </div>
-                        }
-                        return '';
-                    })}
-                </div>
-            }
+            {contacts && <Contacts contacts={contacts}/>}
         </div>
     </div>
 };
+
 
 export default ProfileInfoContainer;

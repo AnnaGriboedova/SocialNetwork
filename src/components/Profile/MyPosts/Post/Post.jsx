@@ -12,7 +12,7 @@ const Post = (props) => {
                 <div className={s.userInfo}>
                     <UserSmallPhoto photo={props.photo} styles={{circle: true, size: 'md'}}/>
                     <div className={s.userNameWrap}>
-                        <span className={s.userName}>{props.name}</span>
+                        <span className={cn(s.userName)}>{props.name}</span>
                         <span className={s.postDate}>{dateFormat(props.date)}</span>
                     </div>
                 </div>

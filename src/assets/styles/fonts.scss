@@ -1,0 +1,197 @@
+@font-face {
+  font-family: 'AssistantBold';
+  src: url('../fonts/Assistant/Assistant-Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantExtraBold';
+  src: url('../fonts/Assistant/Assistant-ExtraBold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantExtraLight';
+  src: url('../fonts/Assistant/Assistant-ExtraLight.ttf') ;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantLight';
+  src: url('../fonts/Assistant/Assistant-Light.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantMedium';
+  src: url('../fonts/Assistant/Assistant-Medium.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantRegular';
+  src: url('../fonts/Assistant/Assistant-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantSemiBold';
+  src: url('../fonts/Assistant/Assistant-SemiBold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+/*@font-face {
+  font-family: 'AssistantBold';
+  src: url('../fonts/Assistant/Assistant-Bold.ttf');
+  src: url('../fonts/Assistant/bold/Assistant-Bold.eot');
+  src: url('../fonts/Assistant/bold/Assistant-Bold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Assistant/bold/Assistant-Bold.woff') format('woff'),
+  url('../fonts/Assistant/bold/Assistant-Bold.ttf') format('truetype'),
+  url('../fonts/Assistant/bold/Assistant-Bold.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'AssistantExtraBold';
+  src: url('../fonts/Assistant/extra-bold/Assistant-ExtraBold.eot');
+  src: url('../fonts/Assistant/extra-bold/Assistant-ExtraBold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Assistant/extra-bold/Assistant-ExtraBold.woff') format('woff'),
+  url('../fonts/Assistant/extra-bold/Assistant-ExtraBold.ttf') format('truetype'),
+  url('../fonts/Assistant/extra-bold/Assistant-ExtraBold.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantExtraLight';
+  src: url('../fonts/Assistant/extra-light/Assistant-ExtraLight.eot');
+  src: url('../fonts/Assistant/extra-light/Assistant-ExtraLight.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Assistant/extra-light/Assistant-ExtraLight.woff') format('woff'),
+  url('../fonts/Assistant/extra-light/Assistant-ExtraLight.ttf') format('truetype'),
+  url('../fonts/Assistant/extra-light/Assistant-ExtraLight.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantLight';
+  src: url('../fonts/Assistant/light/Assistant-Light.eot');
+  src: url('../fonts/Assistant/light/Assistant-Light.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Assistant/light/Assistant-Light.woff') format('woff'),
+  url('../fonts/Assistant/light/Assistant-Light.ttf') format('truetype'),
+  url('../fonts/Assistant/light/Assistant-Light.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantMedium';
+  src: url('../fonts/Assistant/medium/Assistant-Medium.eot');
+  src: url('../fonts/Assistant/medium/Assistant-Medium.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Assistant/medium/Assistant-Medium.woff') format('woff'),
+  url('../fonts/Assistant/medium/Assistant-Medium.ttf') format('truetype'),
+  url('../fonts/Assistant/medium/Assistant-Medium.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantRegular';
+  src: url('../fonts/Assistant/regular/Assistant-Regular.eot');
+  src: url('../fonts/Assistant/regular/Assistant-Regular.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Assistant/regular/Assistant-Regular.woff') format('woff'),
+  url('../fonts/Assistant/regular/Assistant-Regular.ttf') format('truetype'),
+  url('../fonts/Assistant/regular/Assistant-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AssistantSemiBold';
+  src: url('../fonts/Assistant/semi-bold/Assistant-SemiBold.eot');
+  src: url('../fonts/Assistant/semi-bold/Assistant-SemiBold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/Assistant/semi-bold/Assistant-SemiBold.woff') format('woff'),
+  url('../fonts/Assistant/semi-bold/Assistant-SemiBold.ttf') format('truetype'),
+  url('../fonts/Assistant/semi-bold/Assistant-SemiBold.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}*/
+
+
+@font-face {
+  font-family: 'FiraBold';
+  src: url('../fonts/FiraSansCondensed/bold/FiraSansCondensed-Bold.eot');
+  src: url('../fonts/FiraSansCondensed/bold/FiraSansCondensed-Bold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/FiraSansCondensed/bold/FiraSansCondensed-Bold.svg#FiraSansCondensed-Bold') format('svg'),
+  url('../fonts/FiraSansCondensed/bold/FiraSansCondensed-Bold.ttf') format('truetype'),
+  url('../fonts/FiraSansCondensed/bold/FiraSansCondensed-Bold.woff') format('woff'),
+  url('../fonts/FiraSansCondensed/bold/FiraSansCondensed-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FiraLight';
+  src: url('../fonts/FiraSansCondensed/light/FiraSansCondensed-Light.eot');
+  src: url('../fonts/FiraSansCondensed/light/FiraSansCondensed-Light.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/FiraSansCondensed/light/FiraSansCondensed-Light.svg#FiraSansCondensed-Light') format('svg'),
+  url('../fonts/FiraSansCondensed/light/FiraSansCondensed-Light.ttf') format('truetype'),
+  url('../fonts/FiraSansCondensed/light/FiraSansCondensed-Light.woff') format('woff'),
+  url('../fonts/FiraSansCondensed/light/FiraSansCondensed-Light.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FiraRegular';
+  src: url('../fonts/FiraSansCondensed/regular/FiraSansCondensed-Regular.eot');
+  src: url('../fonts/FiraSansCondensed/regular/FiraSansCondensed-Regular.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/FiraSansCondensed/regular/FiraSansCondensed-Regular.svg#FiraSansCondensed-Regular') format('svg'),
+  url('../fonts/FiraSansCondensed/regular/FiraSansCondensed-Regular.ttf') format('truetype'),
+  url('../fonts/FiraSansCondensed/regular/FiraSansCondensed-Regular.woff') format('woff'),
+  url('../fonts/FiraSansCondensed/regular/FiraSansCondensed-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FiraSemiBold';
+  src: url('../fonts/FiraSansCondensed/semiBold/FiraSansCondensed-SemiBold.eot');
+  src: url('../fonts/FiraSansCondensed/semiBold/FiraSansCondensed-SemiBold.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/FiraSansCondensed/semiBold/FiraSansCondensed-SemiBold.svg#FiraSansCondensed-SemiBold') format('svg'),
+  url('../fonts/FiraSansCondensed/semiBold/FiraSansCondensed-SemiBold.ttf') format('truetype'),
+  url('../fonts/FiraSansCondensed/semiBold/FiraSansCondensed-SemiBold.woff') format('woff'),
+  url('../fonts/FiraSansCondensed/semiBold/FiraSansCondensed-SemiBold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FiraThin';
+  src: url('../fonts/FiraSansCondensed/thin/FiraSansCondensed-Thin.eot');
+  src: url('../fonts/FiraSansCondensed/thin/FiraSansCondensed-Thin.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/FiraSansCondensed/thin/FiraSansCondensed-Thin.svg#FiraSansCondensed-Thin') format('svg'),
+  url('../fonts/FiraSansCondensed/thin/FiraSansCondensed-Thin.ttf') format('truetype'),
+  url('../fonts/FiraSansCondensed/thin/FiraSansCondensed-Thin.woff') format('woff'),
+  url('../fonts/FiraSansCondensed/thin/FiraSansCondensed-Thin.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+
+
+
+
+
+
+

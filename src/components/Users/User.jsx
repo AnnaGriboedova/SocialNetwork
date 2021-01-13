@@ -9,7 +9,7 @@ let User = ({user, onFollowingUsersId, follow, unfollow}) => {
         <div className={styles.userWrapper}>
             <div className={styles.userProfile}>
                 <div>
-                    <NavLink className={styles.profileImgLink} to={'profile/' + user.id}>
+                    <NavLink className={styles.profileImgLink} to={'users/' + user.id}>
                         <img className={styles.profileImg} alt={'profile image'}
                              src={user.photos.small !== null ? user.photos.small : userPhoto}/>
                     </NavLink>
@@ -19,14 +19,11 @@ let User = ({user, onFollowingUsersId, follow, unfollow}) => {
                 <div className={styles.userInfo}>
                     <div className={styles.userName}>{user.name}</div>
                     <div className={styles.userStatus}>{user.status}</div>
-                    <div className={styles.userButtonWrapper}>
-                        {user.followed ?
-                            <button disabled={onFollowingUsersId.some(id => id === user.id)} onClick={() => {
-                                unfollow(user.id)
-                            }}>Unfollow</button> :
-                            <button disabled={onFollowingUsersId.some(id => id === user.id)} onClick={() => {
-                                follow(user.id)
-                            }}>Follow</button>}
+                    <div>
+                        <button className={'button'} disabled={onFollowingUsersId.some(id => id === user.id)}
+                                onClick={() => {
+                                    user.followed ? unfollow(user.id) : follow(user.id)
+                                }}>{user.followed ? 'Unfollow' : 'Follow'}</button>
                     </div>
                 </div>
                 <div>
