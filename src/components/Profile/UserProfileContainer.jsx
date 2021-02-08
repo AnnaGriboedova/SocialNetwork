@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useContext} from 'react'
 import {connect} from "react-redux";
 import {getStatus, getUserProfile, updateStatus, savePhoto, saveProfile} from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
@@ -6,32 +6,37 @@ import {compose} from "redux";
 import {getAuthUserId} from "../../redux/authSelectors";
 import {getUserProfileSelector} from "../../redux/profileSelectors";
 import UserProfile from "./UserProfile/UserProfile";
+import {AuthUserProfileContext} from "../../App";
 
-class UserProfileContainer extends React.Component {
-    refreshProfile() {
-        let userId = this.props.match.params.userId;
+const UserProfileContainer = (props) => {
+    const authUserProfile = useContext(AuthUserProfileContext);
+    let userId = props.match.params.userId;
+
+    useEffect(() => {
+        refreshProfile();
+    }, []);
+
+    useEffect(() => {
+        refreshProfile();
+    }, [userId]);
+
+
+    const refreshProfile = () => {
         if (!userId) {
-            this.props.history.push('/profile')
+            props.history.push('/profile')
         }
-        this.props.getUserProfile(userId);
-        this.props.getStatus(userId);
-    }
-
-    componentDidMount() {
-        this.refreshProfile();
-    }
-
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.match.params.userId != prevProps.match.params.userId) {
-            this.refreshProfile();
+        if (authUserProfile.userId === Number.parseInt(userId)) {
+            props.history.replace('/profile')
         }
-    }
+        props.getUserProfile(userId);
+       // props.getStatus(userId);
+    };
 
-    render() {
-        return (
-            <UserProfile {...this.props} isOwner={!this.props.match.params.userId}/>
-        )
-    }
+
+    return (
+        <UserProfile {...props} isOwner={!props.match.params.userId}/>
+    )
+
 }
 
 let mapStateToProps = (state) => (

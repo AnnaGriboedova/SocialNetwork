@@ -5,7 +5,7 @@ import {Input, Textarea} from "../../common/FormsControls/FormsControls";
 import {required} from "../../../utils/validators/validators";
 import styles from "../../common/FormsControls/FormsControls.module.scss";
 
-const ProfileInfoEdit = (props) => {
+const ProfileEdit = (props) => {
     if (!props.userProfile) {
         return <Preloader/>
     }
@@ -84,4 +84,4 @@ const ProfileInfoReduxForm = reduxForm({
     form: 'profileInfoForm'
 })(ProfileInfoForm);
 
-export default ProfileInfoEdit;
+export default ProfileEdit;

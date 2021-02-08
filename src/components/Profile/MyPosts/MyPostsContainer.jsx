@@ -1,16 +1,20 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {addPost} from "../../../redux/profileReducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 import {getUserProfileSelector} from "../../../redux/profileSelectors";
 import {change, blur} from "redux-form";
+import {AuthUserProfileContext} from "../../../App";
+
+const MyPostsContainer = (props) => {
+    const authUserProfile = useContext(AuthUserProfileContext);
+    return <MyPosts authUserProfile={authUserProfile} {...props}/>
+};
 
 const mapStateToProps = (state) => {
     return {
         posts: state.profilePage.posts,
-        authUserProfile: state.auth.authUserProfile,
         userProfile: getUserProfileSelector(state),
-        emojisByCategory: state.app.emojisByCategory
     }
 };
 const mapDispatchToProps = (dispatch) => {
@@ -27,6 +31,4 @@ const mapDispatchToProps = (dispatch) => {
 
     }
 };
-
-const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts);
-export default MyPostsContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(MyPostsContainer);

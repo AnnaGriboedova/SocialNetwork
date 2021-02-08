@@ -1,13 +1,13 @@
-import React, {useState} from 'react'
+import React from 'react'
 import s from '../Profile.module.scss'
 import Preloader from "../../common/Preloader/Preloader";
-import userPhoto from '../../../assets/img/profile.png'
-import ProfileStatusWithHooks from "../ProfileInfo/ProfileStatusWithHooks";
+import ProfileStatus from "../common/Status/ProfileStatus";
 import cn from 'classnames'
-
-
 import MyPostsContainer from "../MyPosts/MyPostsContainer";
-import Contacts from "../Contacts/Contacts";
+import Photo from "../common/Photo/Photo";
+import Name from "../common/Name/Name";
+import AboutMe from "../common/AboutMe/AboutMe";
+import ProfileSidebar from "../common/ProfileSidebar/ProfileSidebar";
 
 
 const UserProfile = (props) => {
@@ -20,25 +20,15 @@ const UserProfile = (props) => {
     return (
         <div className={cn('infoBlocksWrap', s.profileWrap)}>
             <div className={cn('infoBlock', s.profileInfoWrap)}>
-                <div className={s.profilePhotoWrap}>
-                    <img className={s.profilePhoto}
-                         src={props.userProfile.photos.large || userPhoto}/>
-                </div>
+                <Photo photos={props.userProfile.photos}/>
+
 
                 <div className={s.profileInfo}>
-                    {props.userProfile.fullName &&
-                    <div className={s.profileFullName}>
-                        {props.userProfile.fullName}
-                    </div>
-                    }
+                    <Name fullName={props.userProfile.fullName}/>
 
-                    <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus}/>
+                    <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
 
-                    {props.userProfile.aboutMe &&
-                    <div className={s.profileInfo__item}>
-                        {props.userProfile.aboutMe}
-                    </div>
-                    }
+                    {props.userProfile.aboutMe && <AboutMe aboutMe={props.userProfile.aboutMe}/>}
                 </div>
 
                 <button className={s.profileEditBtn}>
@@ -48,38 +38,14 @@ const UserProfile = (props) => {
 
             <div className={s.profileColumnsWrap}>
 
-                <UserProfileInfo userProfile={props.userProfile}/>
-
+                <ProfileSidebar lookingForAJob={props.userProfile.lookingForAJob}
+                                lookingForAJobDescription={props.userProfile.lookingForAJobDescription}
+                                contacts={props.userProfile.contacts}/>
 
                 <MyPostsContainer/>
             </div>
-
-
         </div>
     )
 };
 
-const UserProfileInfo = (props) => {
-    const {lookingForAJob, lookingForAJobDescription, fullName, contacts, aboutMe} = props.userProfile;
-
-    return <div className={s.infoWrap}>
-        <div className={cn('infoBlock', s.profileInfoBlockWrap)}>
-
-            <div className={cn(s.profileInfoBlock__title, 'title--md-greyColor')}>Job</div>
-            <div className={cn('title--sm--greyColor')}>
-                Looking For A Job: {lookingForAJob ? 'yes' : 'no'}
-            </div>
-            <div className={s.profileInfoBlock__desc}>
-
-                {lookingForAJobDescription &&
-                <div>
-                    <span>{lookingForAJobDescription}</span>
-                </div>
-                }
-            </div>
-
-            {contacts && <Contacts contacts={contacts}/>}
-        </div>
-    </div>
-};
 export default UserProfile;

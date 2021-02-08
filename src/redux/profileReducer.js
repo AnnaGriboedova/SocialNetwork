@@ -1,7 +1,8 @@
 import {profileAPI, usersAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 
-export const ADD_POST = 'ADD-POST';
+export const SET_POST = 'SET-POST';
+const SET_POSTS = 'SET-POSTS';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const DELETE_POST = 'DELETE_POST';
@@ -9,22 +10,7 @@ const SET_USER_PHOTO = 'SET_USER_PHOTO';
 const TOGGLE_IS_UPDATE_PROFILE = 'TOGGLE_IS_UPDATE_PROFILE';
 
 let initialState = {
-    posts: [
-        {
-            user: {userName: 'Alena B'},
-            id: 1,
-            message: 'this site is under construction',
-            likesCount: '2',
-            date: new Date(2018, 6, 12, 11, 24, 32)
-        },
-        {
-            user: {userName: 'Andrey'},
-            id: 2,
-            message: 'looking for a job React developer',
-            likesCount: '3',
-            date: new Date(2018, 8, 23, 15, 20, 1)
-        }
-    ],
+    posts: [],
     userProfile: null,
     isUpdateProfile: false,
     status: ''
@@ -32,10 +18,16 @@ let initialState = {
 
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_POST: {
+        case SET_POST: {
             return {
                 ...state,
                 posts: [...state.posts, action.post],
+            };
+        }
+        case SET_POSTS: {
+            return {
+                ...state,
+                posts: action.posts,
             };
         }
         case DELETE_POST: {
@@ -76,14 +68,19 @@ export const addPost = (post) =>
             responsePost.likesCount = 0;
         })();
 
-        dispatch(addPostActionCreator(responsePost));
+        dispatch(setPost(responsePost));
         return promise;
 
     };
 
-export const addPostActionCreator = (post) => ({
-    type: ADD_POST,
+export const setPost = (post) => ({
+    type: SET_POST,
     post
+});
+
+export const setPosts = (posts) => ({
+    type: SET_POSTS,
+    posts
 });
 
 export const setUserProfile = (userProfile) => ({
@@ -113,7 +110,8 @@ export const getUserProfile = (userId) =>
         let response = await usersAPI.getProfile(userId);
 
         dispatch(setUserProfile(response.data));
-
+        await dispatch(getStatus(userId));
+        await dispatch(getPosts(userId));
     }
 ;
 export const setStatus = (status) => ({
@@ -135,6 +133,20 @@ export const getStatus = (userId) =>
     async (dispatch) => {
         let response = await profileAPI.getStatus(userId);
         dispatch(setStatus(response.data));
+
+    };
+
+export const getPosts = (userId) =>
+    async (dispatch) => {
+
+        dispatch(setPosts([{
+            user: {userName: 'Andrey'},
+            id: 2,
+            message: 'Posts are saved locally. You can try adding new posts.',
+            likesCount: '3',
+            date: new Date(2018, 8, 23, 15, 20, 1)
+        }]));
+        return Promise.resolve();
 
     };
 

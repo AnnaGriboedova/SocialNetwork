@@ -16,8 +16,9 @@ import {withSuspense} from "./hoc/withSuspense";
 import UserProfileContainer from "./components/Profile/UserProfileContainer";
 
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
-const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
+const MyProfileContainer = React.lazy(() => import("./components/Profile/MyProfileContainer"));
 
+export const AuthUserProfileContext = React.createContext({});
 
 class App extends React.Component {
     componentDidMount() {
@@ -39,51 +40,53 @@ class App extends React.Component {
             return <Preloader/>
         }
 
-        if (!this.props.isAuth) {
+        if (!this.props.isAuth || !this.props.authUserProfile) {
             return <Login/>
 
         }
 
         return (
-            <div className='appWrapper'>
-                <Navbar/>
-                <div className='contentContainer'>
-                    <div className="postInfo">
-                        <Switch>
-                            <Route exact render={() => <Redirect to={'/profile'}/>
-                            } path='/'/>
+            <AuthUserProfileContext.Provider value={this.props.authUserProfile}>
+                <div className='appWrapper'>
+                    <Navbar/>
+                    <div className='contentContainer'>
+                        <div className="postInfo">
+                            <Switch>
+                                <Route exact render={() => <Redirect to={'/profile'}/>
+                                } path='/'/>
 
-                            <Route render={
-                                withSuspense(DialogsContainer)
-                            } path='/dialogs'/>
+                                <Route render={
+                                    withSuspense(DialogsContainer)
+                                } path='/dialogs'/>
 
-                            <Route exact render={
-                                withSuspense(ProfileContainer)
-                            } path='/profile'/>
+                                <Route exact render={
+                                    withSuspense(MyProfileContainer)
+                                } path='/profile'/>
 
 
-                            <Route exact render={() =>
-                                <UsersContainer/>
-                            } path='/users'/>
+                                <Route exact render={() =>
+                                    <UsersContainer/>
+                                } path='/users'/>
 
-                            <Route render={
-                                withSuspense(UserProfileContainer)
-                            } path='/users/:userId?'/>
+                                <Route render={
+                                    withSuspense(UserProfileContainer)
+                                } path='/users/:userId?'/>
 
-                            {/*<Route render={() =>
+                                {/*<Route render={() =>
                         <Login/>
                     } path='/login'/>*/}
 
-                            <Route render={() => <News/>} path='/news'/>
-                            <Route render={() => <Music/>} path='/music'/>
-                            <Route render={() => <Settings/>} path='/settings'/>
+                                <Route render={() => <News/>} path='/news'/>
+                                <Route render={() => <Music/>} path='/music'/>
+                                <Route render={() => <Settings/>} path='/settings'/>
 
-                            <Route render={() => <div>404 not found</div>} path='*'/>
-                        </Switch>
+                                <Route render={() => <div>404 not found</div>} path='*'/>
+                            </Switch>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            </AuthUserProfileContext.Provider>
+        )
     }
 }
 
@@ -91,6 +94,7 @@ class App extends React.Component {
 const mapStateToProps = (state) => ({
     initialized: state.app.initialized,
     isAuth: state.auth.isAuth,
+    authUserProfile: state.auth.authUserProfile
 });
 
 const AppContainer = compose(

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import s from './MyPosts.module.scss'
-import {Field, reduxForm, change, formValueSelector} from "redux-form";
+import {Field, reduxForm, formValueSelector} from "redux-form";
 import {Textarea} from "../../common/FormsControls/FormsControls";
 import cn from 'classnames'
 import UserSmallPhoto from "../../common/UserSmallPhoto/UserSmallPhoto";
@@ -46,7 +46,7 @@ let AddPostForm = (props) => {
                 <div className={cn(s.messageWrap)}>
 
                     <Field onFocus={onFocus} onBlur={onBlur}
-                           placeholder={'Type something to ' + props.userName}
+                           placeholder={'Type something to ' + props.userProfile.fullName}
                            className={cn(s.messageInput)}
                            component={Textarea} name={'message'}/>
                 </div>
