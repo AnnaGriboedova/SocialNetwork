@@ -5,13 +5,19 @@ const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
 const SET_EMOJI_BY_CATEGORY = 'SOC-NET/SET_EMOJI_BY_CATEGORY';
 const SET_SUBCATEGORY_EMOJIS = 'SOC-NET/SET_SUBCATEGORY_EMOJIS';
 
-let initialState = {
+type InitialStateType = {
+    initialized: boolean,
+    emojisByCategory: Array<any>,
+
+};
+
+let initialState: InitialStateType = {
     initialized: false,
     emojisByCategory: [],
 
 };
 
-const appReducer = (state = initialState, action) => {
+const appReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case INITIALIZED_SUCCESS: {
             return {
@@ -28,7 +34,7 @@ const appReducer = (state = initialState, action) => {
         case SET_SUBCATEGORY_EMOJIS: {
             return {
                 ...state,
-                emojisByCategory: state.emojisByCategory.map(category => {
+                emojisByCategory: state.emojisByCategory.map((category: any) => {
                     if (category['categorySlug'] === action.categorySlug) {
                         return {...category, subcategoryEmojis: action.subcategoryEmojis}
                     }
@@ -41,8 +47,8 @@ const appReducer = (state = initialState, action) => {
     return state
 };
 
-export const getSubcategoryEmojis = (categorySlug) =>
-    async (dispatch) => {
+export const getSubcategoryEmojis = (categorySlug: any) =>
+    async (dispatch: any) => {
         debugger
         let response = await emojiApi.getSubcategoryEmojis(categorySlug);
         if (response.data) {
@@ -59,12 +65,12 @@ export const getSubcategoryEmojis = (categorySlug) =>
     };
 
 export const initEmojisByCategory = () =>
-    async (dispatch) => {
+    async (dispatch: any) => {
         let emojisCategory_response = await emojiApi.getEmojiCategory();
         if (emojisCategory_response.data) {
             let emojisByCategory = [];
             for (const category of emojisCategory_response.data) {
-                let categoryObj = {};
+                let categoryObj: any = {};
                 categoryObj['categorySlug'] = category.slug;
 
                 emojisByCategory.push(categoryObj)
@@ -77,23 +83,27 @@ export const initEmojisByCategory = () =>
     };
 
 
-export const setEmojisByCategory = (emojisByCategory) => ({
+export const setEmojisByCategory = (emojisByCategory: any) => ({
     type: SET_EMOJI_BY_CATEGORY,
     emojisByCategory
 });
 
-export const setSubcategoryEmojis = (categorySlug, subcategoryEmojis) => ({
+export const setSubcategoryEmojis = (categorySlug: any, subcategoryEmojis: any) => ({
     type: SET_SUBCATEGORY_EMOJIS,
     categorySlug,
     subcategoryEmojis
 });
 
-export const initializedSuccess = () => ({
+type InitializedSuccessActionType = {
+    type: typeof INITIALIZED_SUCCESS
+}
+
+export const initializedSuccess = (): InitializedSuccessActionType => ({
     type: INITIALIZED_SUCCESS,
 });
 
 export const initializeApp = () =>
-    (dispatch) => {
+    (dispatch: any) => {
         let promise = dispatch(getAuthUserData());
         Promise.all([promise]).then(
             () => {

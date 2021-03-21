@@ -1,5 +1,6 @@
 import {profileAPI, usersAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {PhotosType, PostType, UserProfileType} from "../types/types";
 
 export const SET_POST = 'SET-POST';
 const SET_POSTS = 'SET-POSTS';
@@ -10,13 +11,17 @@ const SET_USER_PHOTO = 'SET_USER_PHOTO';
 const TOGGLE_IS_UPDATE_PROFILE = 'TOGGLE_IS_UPDATE_PROFILE';
 
 let initialState = {
-    posts: [],
-    userProfile: null,
-    isUpdateProfile: false,
-    status: ''
+    posts: [] as Array<PostType>,
+    userProfile: null as UserProfileType
+        | null,
+    isUpdateProfile: false as boolean,
+    status: '' as string
 };
 
-const profileReducer = (state = initialState, action) => {
+type InitialStateType = typeof initialState;
+
+
+const profileReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case SET_POST: {
             return {
@@ -31,7 +36,7 @@ const profileReducer = (state = initialState, action) => {
             };
         }
         case DELETE_POST: {
-            return {...state, posts: state.posts.filter(p => p.id != action.postId)}
+            return {...state, posts: state.posts.filter((p: any) => p.id != action.postId)}
         }
         case SET_USER_PROFILE: {
             return {...state, userProfile: action.userProfile}
@@ -40,7 +45,7 @@ const profileReducer = (state = initialState, action) => {
             return {...state, status: action.status}
         }
         case SET_USER_PHOTO: {
-            return {...state, userProfile: {...state.userProfile, photos: action.photos}}
+            return {...state, userProfile: {...state.userProfile, photos: action.photos} as UserProfileType}
         }
         case TOGGLE_IS_UPDATE_PROFILE: {
             return {...state, isUpdateProfile: action.isUpdateProfile}
@@ -49,16 +54,16 @@ const profileReducer = (state = initialState, action) => {
     return state
 };
 
-export const addPost = (post) =>
-    async (dispatch) => {
+export const addPost = (post: PostType) =>
+    async (dispatch: any) => {
         let responsePost = {...post};
 
-        let promise = await new Promise(resolve => setTimeout(function () {
+        let promise = await new Promise((resolve: any) => setTimeout(function () {
             resolve();
         }, 3000));
 
         (() => {
-            function randomInteger(min, max) {
+            function randomInteger(min: any, max: any) {
                 let rand = min - 0.5 + Math.random() * (max - min + 1);
                 return Math.round(rand);
             }
@@ -73,29 +78,49 @@ export const addPost = (post) =>
 
     };
 
-export const setPost = (post) => ({
+type SetPostType = {
+    type: typeof SET_POST,
+    post: PostType
+}
+
+export const setPost = (post: PostType): SetPostType => ({
     type: SET_POST,
     post
 });
 
-export const setPosts = (posts) => ({
+type SetPostsType = {
+    type: typeof SET_POSTS,
+    posts: Array<PostType>
+}
+
+export const setPosts = (posts: Array<PostType>): SetPostsType => ({
     type: SET_POSTS,
     posts
 });
 
-export const setUserProfile = (userProfile) => ({
+type SetUserProfileType = {
+    type: typeof SET_USER_PROFILE,
+    userProfile: UserProfileType
+}
+
+export const setUserProfile = (userProfile: UserProfileType): SetUserProfileType => ({
     type: SET_USER_PROFILE,
     userProfile
 });
 
-export const savePhotoSuccess = (photos) => ({
+type SavePhotoSuccessType = {
+    type: typeof SET_USER_PHOTO
+    photos: PhotosType
+}
+
+export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessType => ({
     type: SET_USER_PHOTO,
     photos
 });
 
 
-export const savePhoto = (file) =>
-    async (dispatch) => {
+export const savePhoto = (file: any) =>
+    async (dispatch: any) => {
         let response = await profileAPI.savePhoto(file);
 
         if (response.data.resultCode === 0) {
@@ -105,8 +130,8 @@ export const savePhoto = (file) =>
     }
 ;
 
-export const getUserProfile = (userId) =>
-    async (dispatch) => {
+export const getUserProfile = (userId: number) =>
+    async (dispatch: any) => {
         let response = await usersAPI.getProfile(userId);
 
         dispatch(setUserProfile(response.data));
@@ -114,30 +139,43 @@ export const getUserProfile = (userId) =>
         await dispatch(getPosts(userId));
     }
 ;
-export const setStatus = (status) => ({
+
+type SetStatusType = {
+    type: typeof SET_STATUS
+    status: string
+}
+export const setStatus = (status: string): SetStatusType => ({
     type: SET_STATUS,
     status
 });
 
-export const deletePost = (postId) => ({
+type DeletePostType = {
+    type: typeof DELETE_POST
+    postId: number
+}
+export const deletePost = (postId: number): DeletePostType => ({
     type: DELETE_POST,
     postId
 });
 
-export const toggleIsUpdateProfile = (isUpdateProfile) => ({
+type ToggleIsUpdateProfileType = {
+    type: typeof TOGGLE_IS_UPDATE_PROFILE
+    isUpdateProfile: boolean
+}
+export const toggleIsUpdateProfile = (isUpdateProfile: boolean): ToggleIsUpdateProfileType => ({
     type: TOGGLE_IS_UPDATE_PROFILE,
     isUpdateProfile
 });
 
-export const getStatus = (userId) =>
-    async (dispatch) => {
+export const getStatus = (userId: number) =>
+    async (dispatch: any) => {
         let response = await profileAPI.getStatus(userId);
         dispatch(setStatus(response.data));
 
     };
 
-export const getPosts = (userId) =>
-    async (dispatch) => {
+export const getPosts = (userId: number) =>
+    async (dispatch: any) => {
 
         dispatch(setPosts([{
             user: {userName: 'Andrey'},
@@ -150,8 +188,8 @@ export const getPosts = (userId) =>
 
     };
 
-export const updateStatus = (status) =>
-    async (dispatch) => {
+export const updateStatus = (status: string) =>
+    async (dispatch: any) => {
         try {
             let response = await profileAPI.updateStatus(status);
 
@@ -164,8 +202,8 @@ export const updateStatus = (status) =>
 
     };
 
-export const saveProfile = (profileData) =>
-    async (dispatch, getState) => {
+export const saveProfile = (profileData: any) =>
+    async (dispatch: any, getState: any) => {
         dispatch(toggleIsUpdateProfile(true));
 
         const userId = getState().auth.userId;
