@@ -1,4 +1,4 @@
- export type PostType = {
+export type PostType = {
     user: Object,
     id: number,
     message: string,
@@ -6,12 +6,12 @@
     date: any
 }
 
- export type PhotosType = {
+export type PhotosType = {
     small: string
     large: string
 }
 
- export type ContactsType = {
+export type ContactsType = {
     github: string
     vk: string
     facebook: string
@@ -22,7 +22,8 @@
     mainLink: string
 }
 
- export type UserProfileType = {
+export type UserProfileType = {
+    aboutMe: string
     userId: number
     lookingForAJob: boolean
     lookingForAJobDescription: string

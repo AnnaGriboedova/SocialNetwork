@@ -3,20 +3,28 @@ import s from './Dialogs.module.scss'
 import MessageItem from "./MessageItem/MessageItem";
 import DialogItem from "./DialogItem/DialogItem";
 import {Redirect} from "react-router-dom";
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {required} from "../../utils/validators/validators";
 import {Textarea} from "../common/FormsControls/FormsControls";
+import {InitialStateType} from "../../redux/dialogsReducer";
 
-const Dialogs = (props) => {
-    let dialogsElements = props.dialogsPage.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>);
+type DialogsProps = {
+    dialogsPage: InitialStateType,
+    isAuth: boolean,
+    addMessage: (newMessageText: string) => void
+}
 
-    let messagesElements = props.dialogsPage.messages.map(m => <MessageItem key={m.id} message={m.message}/>);
 
-    const addNewMessage = (values) => {
-        props.addMessage(values.newMessageText);
+const Dialogs: React.FC<DialogsProps> = ({dialogsPage, isAuth, addMessage}) => {
+    let dialogsElements = dialogsPage.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>);
+
+    let messagesElements = dialogsPage.messages.map(m => <MessageItem key={m.id} message={m.message}/>);
+
+    const addNewMessage = (values: any) => {
+        addMessage(values.newMessageText);
     };
 
-    if (!props.isAuth) return <Redirect to={"/login"}/>;
+    if (!isAuth) return <Redirect to={"/login"}/>;
 
     return (
         <div className={`${s.dialogs} container`}>
@@ -34,11 +42,12 @@ const Dialogs = (props) => {
     )
 };
 
-const AddMessageForm = (props) => {
+const AddMessageForm: React.FC<InjectedFormProps> = (props: any) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={Textarea} validate={[required]} placeholder={'Enter your message'} name='newMessageText'
+                <Field component={Textarea} validate={[required]} placeholder={'Enter your message'}
+                       name='newMessageText'
                        className={s.messageInput}/>
             </div>
             <div>

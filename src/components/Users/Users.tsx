@@ -3,8 +3,21 @@ import styles from './Users.module.scss'
 import Preloader from "../common/Preloader/Preloader";
 import Paginator from "../common/Paginator/Paginator";
 import User from "./User";
+import {UserType} from '../../redux/usersReducer';
 
-let Users = ({usersTotalCount, pageSize, currentPage, onPageChanged, ...props}) => {
+type UsersType = {
+    usersTotalCount: number
+    pageSize: number
+    currentPage: number
+    onPageChanged: (page: number) => void
+    isFetching: boolean
+    users: Array<UserType>
+    onFollowingUsersId: Array<number>
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+}
+
+const Users: React.FC<UsersType> = ({usersTotalCount, pageSize, currentPage, onPageChanged, ...props}) => {
     return <>
         {props.isFetching ? <Preloader/> : ''}
         <div className={styles.usersContainer}>

@@ -1,5 +1,7 @@
 import {getAuthUserData} from "./authReducer";
 import {emojiApi} from "../api/api";
+import {ThunkAction} from "redux-thunk";
+import {StateType} from "./redux-store";
 
 const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
 const SET_EMOJI_BY_CATEGORY = 'SOC-NET/SET_EMOJI_BY_CATEGORY';
@@ -7,9 +9,21 @@ const SET_SUBCATEGORY_EMOJIS = 'SOC-NET/SET_SUBCATEGORY_EMOJIS';
 
 type InitialStateType = {
     initialized: boolean,
-    emojisByCategory: Array<any>,
-
+    emojisByCategory: Array<EmojiCategory>,
 };
+
+type EmojiCategory = {
+    categorySlug: string,
+    subcategoryEmojis?: Array<Emoji>
+}
+type Emoji = {
+    slug: string,
+    character: string,
+    unicodeName: string,
+    codePoint: string,
+    group: string,
+    subGroup: string
+}
 
 let initialState: InitialStateType = {
     initialized: false,
@@ -17,7 +31,11 @@ let initialState: InitialStateType = {
 
 };
 
-const appReducer = (state = initialState, action: any): InitialStateType => {
+type ActionTypes = SetEmojisByCategoryActionType | SetSubcategoryEmojisActionType | InitializedSuccessActionType
+
+type ThunkType = ThunkAction<void, StateType, unknown, ActionTypes>
+
+const appReducer = (state = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
         case INITIALIZED_SUCCESS: {
             return {
@@ -34,7 +52,7 @@ const appReducer = (state = initialState, action: any): InitialStateType => {
         case SET_SUBCATEGORY_EMOJIS: {
             return {
                 ...state,
-                emojisByCategory: state.emojisByCategory.map((category: any) => {
+                emojisByCategory: state.emojisByCategory.map((category: EmojiCategory) => {
                     if (category['categorySlug'] === action.categorySlug) {
                         return {...category, subcategoryEmojis: action.subcategoryEmojis}
                     }
@@ -47,9 +65,8 @@ const appReducer = (state = initialState, action: any): InitialStateType => {
     return state
 };
 
-export const getSubcategoryEmojis = (categorySlug: any) =>
-    async (dispatch: any) => {
-        debugger
+export const getSubcategoryEmojis = (categorySlug: string): ThunkType =>
+    async (dispatch) => {
         let response = await emojiApi.getSubcategoryEmojis(categorySlug);
         if (response.data) {
             let subcategoryEmojis = response.data;
@@ -64,14 +81,13 @@ export const getSubcategoryEmojis = (categorySlug: any) =>
 
     };
 
-export const initEmojisByCategory = () =>
-    async (dispatch: any) => {
+export const initEmojisByCategory = (): ThunkType =>
+    async (dispatch) => {
         let emojisCategory_response = await emojiApi.getEmojiCategory();
         if (emojisCategory_response.data) {
             let emojisByCategory = [];
             for (const category of emojisCategory_response.data) {
-                let categoryObj: any = {};
-                categoryObj['categorySlug'] = category.slug;
+                let categoryObj: EmojiCategory = {categorySlug: category.slug};
 
                 emojisByCategory.push(categoryObj)
 
@@ -82,13 +98,23 @@ export const initEmojisByCategory = () =>
 
     };
 
+type SetEmojisByCategoryActionType = {
+    type: typeof SET_EMOJI_BY_CATEGORY
+    emojisByCategory: Array<EmojiCategory>
+}
 
-export const setEmojisByCategory = (emojisByCategory: any) => ({
+export const setEmojisByCategory = (emojisByCategory: Array<EmojiCategory>): SetEmojisByCategoryActionType => ({
     type: SET_EMOJI_BY_CATEGORY,
     emojisByCategory
 });
 
-export const setSubcategoryEmojis = (categorySlug: any, subcategoryEmojis: any) => ({
+type SetSubcategoryEmojisActionType = {
+    type: typeof SET_SUBCATEGORY_EMOJIS,
+    categorySlug: string,
+    subcategoryEmojis: Array<Emoji>
+}
+
+export const setSubcategoryEmojis = (categorySlug: string, subcategoryEmojis: Array<Emoji>): SetSubcategoryEmojisActionType => ({
     type: SET_SUBCATEGORY_EMOJIS,
     categorySlug,
     subcategoryEmojis
@@ -102,8 +128,8 @@ export const initializedSuccess = (): InitializedSuccessActionType => ({
     type: INITIALIZED_SUCCESS,
 });
 
-export const initializeApp = () =>
-    (dispatch: any) => {
+export const initializeApp = (): ThunkType =>
+    (dispatch) => {
         let promise = dispatch(getAuthUserData());
         Promise.all([promise]).then(
             () => {

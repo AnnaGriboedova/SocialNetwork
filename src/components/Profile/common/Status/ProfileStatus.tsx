@@ -1,9 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, ChangeEvent} from 'react';
 import s from '../../Profile.module.scss'
 
 import thinkingIcon from "../../../../assets/img/icons/thinking.svg"
 
-const ProfileStatus = (props) => {
+type ProfileStatusPropsType = {
+    edit: boolean
+    status: string
+    updateStatus: (status: string) => void
+}
+
+const ProfileStatus: React.FC<ProfileStatusPropsType> = (props) => {
     return (
         <div className={s.profileStatusWrap}>
             {props.edit ?
@@ -14,7 +20,10 @@ const ProfileStatus = (props) => {
 
 };
 
-const ProfileStatusText = (props) => {
+type ProfileStatusTextPropsType = {
+    status: string
+}
+const ProfileStatusText: React.FC<ProfileStatusTextPropsType> = (props) => {
 
     return (
 
@@ -27,7 +36,12 @@ const ProfileStatusText = (props) => {
 
 };
 
-const ProfileStatusEdit = (props) => {
+type ProfileStatusEditPropsType = {
+    status: string
+    updateStatus: (status: string) => void
+}
+
+const ProfileStatusEdit: React.FC<ProfileStatusEditPropsType> = (props) => {
 
     let [editMode, setEditMode] = useState(false);
     let [status, setStatus] = useState(props.status);
@@ -46,7 +60,7 @@ const ProfileStatusEdit = (props) => {
         props.updateStatus(status)
     };
 
-    const onStatusChange = (e) => {
+    const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value)
     };
 

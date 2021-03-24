@@ -3,9 +3,8 @@ import {connect} from "react-redux";
 import {
     follow,
     unfollow,
-    setCurrentPage,
     requestUsers,
-    toggleIsFollowing
+    UserType
 } from "../../redux/usersReducer";
 import Users from "./Users";
 import {compose} from "redux";
@@ -17,15 +16,32 @@ import {
     getUsers,
     getUsersTotalCount
 } from "../../redux/usersSelectors";
+import {StateType} from '../../redux/redux-store';
 
+type MapStateToPropsType = {
+    currentPage: number
+    pageSize: number
+    usersTotalCount: number
+    users: Array<UserType>
+    isFetching: boolean
+    onFollowingUsersId: Array<number>
+}
 
-class UsersAPI extends React.Component {
+type MapDispatchToPropsType = {
+    requestUsers: (currentPage: number, pageSize: number) => void
+    unfollow: (userId: number) => void
+    follow: (userId: number) => void
+}
+
+type PropsType = MapStateToPropsType & MapDispatchToPropsType
+
+class UsersAPI extends React.Component<PropsType, StateType> {
     componentDidMount() {
         const {currentPage, pageSize} = this.props;
         this.props.requestUsers(currentPage, pageSize);
     }
 
-    onPageChanged = (pageNum) => {
+    onPageChanged = (pageNum: number) => {
         const {pageSize} = this.props;
         this.props.requestUsers(pageNum, pageSize);
     };
@@ -38,14 +54,13 @@ class UsersAPI extends React.Component {
                       users={this.props.users}
                       isFetching={this.props.isFetching}
                       onFollowingUsersId={this.props.onFollowingUsersId}
-                      toggleIsFollowing={this.props.toggleIsFollowing}
                       unfollow={this.props.unfollow}
                       follow={this.props.follow}
         />
     }
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: StateType) => {
     return {
         users: getUsers(state),
         pageSize: getPageSize(state),
@@ -57,9 +72,7 @@ let mapStateToProps = (state) => {
 };
 
 export default compose(
-    connect(mapStateToProps, {
-        setCurrentPage,
-        toggleIsFollowing,
+    connect<MapStateToPropsType, MapDispatchToPropsType, {}, StateType>(mapStateToProps, {
         requestUsers,
         unfollow,
         follow

@@ -1,6 +1,8 @@
 import {profileAPI, usersAPI} from "../api/api";
-import {stopSubmit} from "redux-form";
+import {FormAction, stopSubmit} from "redux-form";
 import {PhotosType, PostType, UserProfileType} from "../types/types";
+import {ThunkAction} from "redux-thunk";
+import {StateType} from "./redux-store";
 
 export const SET_POST = 'SET-POST';
 const SET_POSTS = 'SET-POSTS';
@@ -20,8 +22,11 @@ let initialState = {
 
 type InitialStateType = typeof initialState;
 
+type ActionTypes = SetPostType | SetPostsType | SetUserProfileType | SavePhotoSuccessType | SetStatusType |
+    DeletePostType | ToggleIsUpdateProfileType
+type ThunkType = ThunkAction<void, StateType, unknown, ActionTypes>
 
-const profileReducer = (state = initialState, action: any): InitialStateType => {
+const profileReducer = (state = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
         case SET_POST: {
             return {
@@ -36,7 +41,7 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
             };
         }
         case DELETE_POST: {
-            return {...state, posts: state.posts.filter((p: any) => p.id != action.postId)}
+            return {...state, posts: state.posts.filter((p: PostType) => p.id !== action.postId)}
         }
         case SET_USER_PROFILE: {
             return {...state, userProfile: action.userProfile}
@@ -54,16 +59,16 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
     return state
 };
 
-export const addPost = (post: PostType) =>
-    async (dispatch: any) => {
+export const addPost = (post: PostType): ThunkType =>
+    async (dispatch) => {
         let responsePost = {...post};
 
-        let promise = await new Promise((resolve: any) => setTimeout(function () {
-            resolve();
+        let promise = await new Promise((resolve: (value: string) => void) => setTimeout(function () {
+            resolve('Success send');
         }, 3000));
 
         (() => {
-            function randomInteger(min: any, max: any) {
+            function randomInteger(min: number, max: number) {
                 let rand = min - 0.5 + Math.random() * (max - min + 1);
                 return Math.round(rand);
             }
@@ -119,8 +124,9 @@ export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessType => ({
 });
 
 
-export const savePhoto = (file: any) =>
-    async (dispatch: any) => {
+export const savePhoto = (file: HTMLInputElement): ThunkType =>
+    async (dispatch) => {
+
         let response = await profileAPI.savePhoto(file);
 
         if (response.data.resultCode === 0) {
@@ -130,8 +136,8 @@ export const savePhoto = (file: any) =>
     }
 ;
 
-export const getUserProfile = (userId: number) =>
-    async (dispatch: any) => {
+export const getUserProfile = (userId: number): ThunkType =>
+    async (dispatch) => {
         let response = await usersAPI.getProfile(userId);
 
         dispatch(setUserProfile(response.data));
@@ -167,15 +173,15 @@ export const toggleIsUpdateProfile = (isUpdateProfile: boolean): ToggleIsUpdateP
     isUpdateProfile
 });
 
-export const getStatus = (userId: number) =>
-    async (dispatch: any) => {
+export const getStatus = (userId: number): ThunkType =>
+    async (dispatch) => {
         let response = await profileAPI.getStatus(userId);
         dispatch(setStatus(response.data));
 
     };
 
-export const getPosts = (userId: number) =>
-    async (dispatch: any) => {
+export const getPosts = (userId: number): ThunkType =>
+    async (dispatch) => {
 
         dispatch(setPosts([{
             user: {userName: 'Andrey'},
@@ -188,8 +194,8 @@ export const getPosts = (userId: number) =>
 
     };
 
-export const updateStatus = (status: string) =>
-    async (dispatch: any) => {
+export const updateStatus = (status: string): ThunkType =>
+    async (dispatch) => {
         try {
             let response = await profileAPI.updateStatus(status);
 
@@ -202,14 +208,16 @@ export const updateStatus = (status: string) =>
 
     };
 
-export const saveProfile = (profileData: any) =>
-    async (dispatch: any, getState: any) => {
+export const saveProfile = (profileData: UserProfileType):
+    ThunkAction<void, StateType, unknown, ActionTypes | FormAction> =>
+    async (dispatch, getState) => {
         dispatch(toggleIsUpdateProfile(true));
 
         const userId = getState().auth.userId;
         let response = await profileAPI.saveProfile(profileData);
 
         if (response.data.resultCode === 0) {
+            // @ts-ignore
             dispatch(getUserProfile(userId));
             dispatch(toggleIsUpdateProfile(false));
         } else {
