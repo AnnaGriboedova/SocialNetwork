@@ -1,4 +1,4 @@
-import {usersAPI} from "../api/api";
+import {ResultCodes, usersAPI} from "../api/api";
 import {updateObjectInArray} from "../utils/objectHelpers";
 import {PhotosType} from "../types/types";
 import {ThunkAction} from "redux-thunk";
@@ -149,11 +149,15 @@ export const requestUsers = (page: number, pageSize: number): ThunkType => {
     }
 };
 
-const followUnfollowFLow = async (dispatch: Dispatch<ActionTypes>, userId: number, apiMethod: any, actionCreator: (userId: number) => FollowSuccessType | UnfollowSuccessType) => {
+const followUnfollowFLow = async (
+    dispatch: Dispatch<ActionTypes>, userId: number,
+    apiMethod: typeof usersAPI.deleteFriend | typeof usersAPI.addFriend,
+    actionCreator: (userId: number) => FollowSuccessType | UnfollowSuccessType
+) => {
     dispatch(toggleIsFollowing(true, userId));
 
-    let response = await apiMethod(userId);
-    if (response.data.resultCode === 0) {
+    let data = await apiMethod(userId);
+    if (data.resultCode === ResultCodes.Success) {
         dispatch(actionCreator(userId))
     }
     dispatch(toggleIsFollowing(false, userId));

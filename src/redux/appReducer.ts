@@ -16,7 +16,7 @@ type EmojiCategory = {
     categorySlug: string,
     subcategoryEmojis?: Array<Emoji>
 }
-type Emoji = {
+export type Emoji = {
     slug: string,
     character: string,
     unicodeName: string,
@@ -87,7 +87,7 @@ export const initEmojisByCategory = (): ThunkType =>
         if (emojisCategory_response.data) {
             let emojisByCategory = [];
             for (const category of emojisCategory_response.data) {
-                let categoryObj: EmojiCategory = {categorySlug: category.slug};
+                let categoryObj = {categorySlug: category.slug};
 
                 emojisByCategory.push(categoryObj)
 

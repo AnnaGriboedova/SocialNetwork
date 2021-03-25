@@ -1,4 +1,4 @@
-import {profileAPI, usersAPI} from "../api/api";
+import {profileAPI, ResultCodes, usersAPI} from "../api/api";
 import {FormAction, stopSubmit} from "redux-form";
 import {PhotosType, PostType, UserProfileType} from "../types/types";
 import {ThunkAction} from "redux-thunk";
@@ -126,11 +126,10 @@ export const savePhotoSuccess = (photos: PhotosType): SavePhotoSuccessType => ({
 
 export const savePhoto = (file: HTMLInputElement): ThunkType =>
     async (dispatch) => {
+        let data = await profileAPI.savePhoto(file);
 
-        let response = await profileAPI.savePhoto(file);
-
-        if (response.data.resultCode === 0) {
-            dispatch(savePhotoSuccess(response.data.data.photos));
+        if (data.resultCode === ResultCodes.Success) {
+            dispatch(savePhotoSuccess(data.data.photos));
         }
 
     }
@@ -138,9 +137,9 @@ export const savePhoto = (file: HTMLInputElement): ThunkType =>
 
 export const getUserProfile = (userId: number): ThunkType =>
     async (dispatch) => {
-        let response = await usersAPI.getProfile(userId);
+        let data = await usersAPI.getProfile(userId);
 
-        dispatch(setUserProfile(response.data));
+        dispatch(setUserProfile(data));
         await dispatch(getStatus(userId));
         await dispatch(getPosts(userId));
     }
@@ -175,8 +174,8 @@ export const toggleIsUpdateProfile = (isUpdateProfile: boolean): ToggleIsUpdateP
 
 export const getStatus = (userId: number): ThunkType =>
     async (dispatch) => {
-        let response = await profileAPI.getStatus(userId);
-        dispatch(setStatus(response.data));
+        let data = await profileAPI.getStatus(userId);
+        dispatch(setStatus(data));
 
     };
 
@@ -197,9 +196,9 @@ export const getPosts = (userId: number): ThunkType =>
 export const updateStatus = (status: string): ThunkType =>
     async (dispatch) => {
         try {
-            let response = await profileAPI.updateStatus(status);
+            let data = await profileAPI.updateStatus(status);
 
-            if (response.data.resultCode === 0) {
+            if (data.resultCode === ResultCodes.Success) {
                 dispatch(setStatus(status));
             }
         } catch (e) {
@@ -214,15 +213,15 @@ export const saveProfile = (profileData: UserProfileType):
         dispatch(toggleIsUpdateProfile(true));
 
         const userId = getState().auth.userId;
-        let response = await profileAPI.saveProfile(profileData);
+        let data = await profileAPI.saveProfile(profileData);
 
-        if (response.data.resultCode === 0) {
+        if (data.resultCode === ResultCodes.Success) {
             // @ts-ignore
             dispatch(getUserProfile(userId));
             dispatch(toggleIsUpdateProfile(false));
         } else {
-            dispatch(stopSubmit("profileInfoForm", {_error: response.data.messages[0]}));
-            return Promise.reject(response.data.messages[0]);
+            dispatch(stopSubmit("profileInfoForm", {_error: data.messages[0]}));
+            return Promise.reject(data.messages[0]);
         }
 
     };
