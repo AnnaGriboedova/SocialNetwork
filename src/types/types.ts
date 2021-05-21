@@ -1,9 +1,12 @@
 export type PostType = {
-    user: Object,
-    id: number,
+    user: {
+        userName: string
+        userPhoto?: string
+    },
+    id?: number,
     message: string,
-    likesCount: any,
-    date: any
+    likesCount?: any,
+    date?: any
 }
 
 export type PhotosType = {
@@ -12,6 +15,7 @@ export type PhotosType = {
 }
 
 export type ContactsType = {
+    [key: string]: string
     github: string
     vk: string
     facebook: string

@@ -1,22 +1,22 @@
 import {getAuthUserData} from "./authReducer";
-import {emojiApi} from "../api/api";
 import {ThunkAction} from "redux-thunk";
-import {StateType} from "./redux-store";
+import {InferActionTypes, StateType} from "./redux-store";
+import {emojiApi} from "../api/emojiApi";
 
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
-const SET_EMOJI_BY_CATEGORY = 'SOC-NET/SET_EMOJI_BY_CATEGORY';
-const SET_SUBCATEGORY_EMOJIS = 'SOC-NET/SET_SUBCATEGORY_EMOJIS';
+const INITIALIZED_SUCCESS = 'APP/INITIALIZED_SUCCESS';
+const SET_EMOJI_BY_CATEGORY = 'APP/SET_EMOJI_BY_CATEGORY';
+const SET_SUBCATEGORY_EMOJIS = 'APP/SET_SUBCATEGORY_EMOJIS';
 
 type InitialStateType = {
     initialized: boolean,
     emojisByCategory: Array<EmojiCategory>,
 };
 
-type EmojiCategory = {
+export type EmojiCategory = {
     categorySlug: string,
-    subcategoryEmojis?: Array<Emoji>
+    subcategoryEmojis?: Array<EmojiType>
 }
-export type Emoji = {
+export type EmojiType = {
     slug: string,
     character: string,
     unicodeName: string,
@@ -31,7 +31,7 @@ let initialState: InitialStateType = {
 
 };
 
-type ActionTypes = SetEmojisByCategoryActionType | SetSubcategoryEmojisActionType | InitializedSuccessActionType
+export type ActionTypes = InferActionTypes<typeof actions>
 
 type ThunkType = ThunkAction<void, StateType, unknown, ActionTypes>
 
@@ -65,12 +65,27 @@ const appReducer = (state = initialState, action: ActionTypes): InitialStateType
     return state
 };
 
+const actions = {
+    setEmojisByCategory: (emojisByCategory: Array<EmojiCategory>) => ({
+        type: SET_EMOJI_BY_CATEGORY,
+        emojisByCategory
+    }) as const,
+    initializedSuccess: () => ({
+        type: INITIALIZED_SUCCESS,
+    }) as const,
+    setSubcategoryEmojis: (categorySlug: string, subcategoryEmojis: Array<EmojiType>) => ({
+        type: SET_SUBCATEGORY_EMOJIS,
+        categorySlug,
+        subcategoryEmojis
+    }) as const
+}
+
 export const getSubcategoryEmojis = (categorySlug: string): ThunkType =>
     async (dispatch) => {
         let response = await emojiApi.getSubcategoryEmojis(categorySlug);
         if (response.data) {
             let subcategoryEmojis = response.data;
-            dispatch(setSubcategoryEmojis(categorySlug, subcategoryEmojis))
+            dispatch(actions.setSubcategoryEmojis(categorySlug, subcategoryEmojis))
         } else {
             if (typeof response.data === 'object' && response.status === 200) {
                 return Promise.reject('В этой категории ещё нет эмоджи')
@@ -81,7 +96,8 @@ export const getSubcategoryEmojis = (categorySlug: string): ThunkType =>
 
     };
 
-export const initEmojisByCategory = (): ThunkType =>
+export type InitEmojisByCategoryThunkAction = ThunkAction<Promise<void>, StateType, unknown, ActionTypes>
+export const initEmojisByCategory = (): InitEmojisByCategoryThunkAction =>
     async (dispatch) => {
         let emojisCategory_response = await emojiApi.getEmojiCategory();
         if (emojisCategory_response.data) {
@@ -93,47 +109,16 @@ export const initEmojisByCategory = (): ThunkType =>
 
             }
 
-            dispatch(setEmojisByCategory(emojisByCategory));
+            dispatch(actions.setEmojisByCategory(emojisByCategory));
         }
-
     };
-
-type SetEmojisByCategoryActionType = {
-    type: typeof SET_EMOJI_BY_CATEGORY
-    emojisByCategory: Array<EmojiCategory>
-}
-
-export const setEmojisByCategory = (emojisByCategory: Array<EmojiCategory>): SetEmojisByCategoryActionType => ({
-    type: SET_EMOJI_BY_CATEGORY,
-    emojisByCategory
-});
-
-type SetSubcategoryEmojisActionType = {
-    type: typeof SET_SUBCATEGORY_EMOJIS,
-    categorySlug: string,
-    subcategoryEmojis: Array<Emoji>
-}
-
-export const setSubcategoryEmojis = (categorySlug: string, subcategoryEmojis: Array<Emoji>): SetSubcategoryEmojisActionType => ({
-    type: SET_SUBCATEGORY_EMOJIS,
-    categorySlug,
-    subcategoryEmojis
-});
-
-type InitializedSuccessActionType = {
-    type: typeof INITIALIZED_SUCCESS
-}
-
-export const initializedSuccess = (): InitializedSuccessActionType => ({
-    type: INITIALIZED_SUCCESS,
-});
 
 export const initializeApp = (): ThunkType =>
     (dispatch) => {
         let promise = dispatch(getAuthUserData());
         Promise.all([promise]).then(
             () => {
-                dispatch(initializedSuccess())
+                dispatch(actions.initializedSuccess())
             }
         )
     };
