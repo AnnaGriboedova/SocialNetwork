@@ -31,7 +31,7 @@ let initialState = {
     onFollowingUsersId: [] as Array<number>//array as users id
 };
 
-type InitialStateType = typeof initialState;
+export type InitialStateType = typeof initialState;
 type ThunkType = ThunkAction<void, StateType, unknown, ActionTypes>
 
 const usersReducer = (state = initialState, action: ActionTypes): InitialStateType => {
