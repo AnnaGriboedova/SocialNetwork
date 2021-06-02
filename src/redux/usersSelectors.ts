@@ -9,8 +9,16 @@ export const getUsers = createSelector(getUsersSelector, (users) => {
     return users.filter(u => true);
 });
 
-export const getPageSize = (state: StateType) => {
-    return state.usersPage.pageSize;
+export const getUsersCount = (state: StateType) => {
+    return state.usersPage.usersCount;
+};
+
+export const getTerm = (state: StateType) => {
+    return state.usersPage.term;
+};
+
+export const getIsFriend = (state: StateType) => {
+    return state.usersPage.isFriend;
 };
 
 export const getUsersTotalCount = (state: StateType) => {

@@ -4,14 +4,14 @@ import cn from 'classnames'
 
 type PaginatorType = {
     itemsTotalCount: number
-    pageSize: number
+    usersCount: number
     portionSize?: number
     currentPage: number
     onPageChanged: (page: number) => void
 }
 
 let Paginator: React.FC<PaginatorType> = (props) => {
-    let pagesCount = Math.ceil(props.itemsTotalCount / props.pageSize);
+    let pagesCount = Math.ceil(props.itemsTotalCount / props.usersCount);
     let pages = [];
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);

@@ -11,6 +11,8 @@ const UNFOLLOW = 'USERS/UNFOLLOW';
 const SET_USERS = 'USERS/SET_USERS';
 const SET_CURRENT_PAGE = 'USERS/SET_CURRENT_PAGE';
 const SET_USERS_TOTAL_COUNT = 'USERS/SET_USERS_TOTAL_COUNT';
+const SET_TERM = 'USERS/SET_TERM';
+const SET_IS_FRIEND = 'USERS/SET_IS_FRIEND';
 const TOGGLE_IS_FETCHING = 'USERS/TOGGLE_IS_FETCHING';
 const TOGGLE_IS_FOLLOWING = 'USERS/TOGGLE_IS_FOLLOWING';
 
@@ -24,7 +26,9 @@ export type UserType = {
 
 let initialState = {
     users: [] as Array<UserType>,
-    pageSize: 5 as number,
+    usersCount: 5 as number,
+    term: '',
+    isFriend: '' as '' | boolean,
     usersTotalCount: 20 as number,
     currentPage: 1 as number,
     isFetching: true as boolean,
@@ -52,6 +56,10 @@ const usersReducer = (state = initialState, action: ActionTypes): InitialStateTy
             return {...state, usersTotalCount: action.totalCount};
         case SET_CURRENT_PAGE:
             return {...state, currentPage: action.currentPage};
+        case SET_TERM:
+            return {...state, term: action.term};
+        case SET_IS_FRIEND:
+            return {...state, isFriend: action.isFriend};
         case TOGGLE_IS_FETCHING:
             return {...state, isFetching: action.isFetching};
         case TOGGLE_IS_FOLLOWING:
@@ -87,6 +95,14 @@ export const actions = {
         type: SET_CURRENT_PAGE,
         currentPage
     }) as const,
+    setTerm: (term: string) => ({
+        type: SET_TERM,
+        term
+    }) as const,
+    setIsFriend: (isFriend: boolean | '') => ({
+        type: SET_IS_FRIEND,
+        isFriend
+    }) as const,
     toggleIsFetching: (isFetching: boolean) => ({
         type: TOGGLE_IS_FETCHING,
         isFetching
@@ -98,12 +114,14 @@ export const actions = {
     }) as const
 }
 
-export const requestUsers = (page: number, pageSize: number): ThunkType => {
+export const requestUsers = (currentPage = 1, usersCount = 10, term = '', isFriend: boolean | '' = ''): ThunkType => {
     return async (dispatch) => {
         dispatch(actions.toggleIsFetching(true));
-        dispatch(actions.setCurrentPage(page));
+        dispatch(actions.setCurrentPage(currentPage));
+        dispatch(actions.setTerm(term));
+        dispatch(actions.setIsFriend(isFriend));
 
-        let data = await usersAPI.getUsers(page, pageSize);
+        let data = await usersAPI.getUsers(currentPage, usersCount, term, isFriend);
 
         dispatch(actions.toggleIsFetching(false));
         dispatch(actions.setUsers(data.items));

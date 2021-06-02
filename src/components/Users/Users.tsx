@@ -4,12 +4,17 @@ import Preloader from "../common/Preloader/Preloader";
 import Paginator from "../common/Paginator/Paginator";
 import User from "./User";
 import {UserType} from '../../redux/usersReducer';
+import FilterForm from './FilterForm/FilterForm';
 
 type UsersType = {
     usersTotalCount: number
-    pageSize: number
+    usersCount: number
     currentPage: number
     onPageChanged: (page: number) => void
+    onTermFilter: (term: string) => void
+    term: string
+    isFriend: '' | boolean
+    onFriendFilter: (isFriend: boolean | '') => void
     isFetching: boolean
     users: Array<UserType>
     onFollowingUsersId: Array<number>
@@ -17,13 +22,27 @@ type UsersType = {
     unfollow: (userId: number) => void
 }
 
-const Users: React.FC<UsersType> = ({usersTotalCount, pageSize, currentPage, onPageChanged, ...props}) => {
+const Users: React.FC<UsersType> = (
+    {
+        usersTotalCount,
+        usersCount,
+        currentPage,
+        onPageChanged,
+        onTermFilter,
+        onFriendFilter,
+        term,
+        isFriend,
+        ...props
+    }) => {
     return <>
         {props.isFetching ? <Preloader/> : ''}
         <div className={styles.usersContainer}>
-            <Paginator itemsTotalCount={usersTotalCount} pageSize={pageSize} currentPage={currentPage}
+            <Paginator itemsTotalCount={usersTotalCount} usersCount={usersCount} currentPage={currentPage}
                        onPageChanged={onPageChanged}
             />
+
+            <FilterForm term={term} isFriend={isFriend} currentPage={currentPage} onTermFilter={onTermFilter}
+                        onFriendFilter={onFriendFilter}/>
 
             {props.users.map(u =>
                 <User key={u.id}

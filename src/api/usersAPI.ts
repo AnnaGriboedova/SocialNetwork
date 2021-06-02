@@ -19,8 +19,8 @@ export type UsersAPI = {
     }
 }
 export const usersAPI = {
-    getUsers(currentPage = 1, pageSize = 10) {
-        return instance.get<UsersAPI['getUsers']>(`users?page=${currentPage}&count=${pageSize}`).then(res => {
+    getUsers(currentPage: number, usersCount: number, term: string, isFriend: boolean | '') {
+        return instance.get<UsersAPI['getUsers']>(`users?page=${currentPage}&count=${usersCount}&term=${term}&friend=${isFriend}`).then(res => {
             return res.data
         })
     },
