@@ -1,7 +1,7 @@
 import React from 'react';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {connect} from "react-redux";
-import {login, logout} from "../../redux/authReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {login} from "../../redux/authReducer";
 import {Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators/validators";
 import {Redirect} from "react-router-dom";
@@ -57,37 +57,24 @@ type LoginFormData = {
 }
 
 
-const Login: React.FC<MapStateToProps & MapDispatchToProps> = (props) => {
+export const Login: React.FC = (props) => {
+    const captchaUrl = useSelector((state: StateType) => state.auth.captchaUrl),
+        isAuth = useSelector((state: StateType) => state.auth.isAuth),
+        dispatch = useDispatch(),
+        onLogin = (email: string, password: string, rememberMe: boolean, captcha: string) => {
+            dispatch(login(email, password, rememberMe, captcha))
+        }
+
     const onSubmit = (formData: LoginFormData) => {
-        props.login(formData.email, formData.password, formData.rememberMe, formData.captcha)
+        onLogin(formData.email, formData.password, formData.rememberMe, formData.captcha)
     };
 
-    if (props.isAuth) {
+    if (isAuth) {
         return <Redirect to="/profile"/>
     }
 
     return <div>
         <h1>Login</h1>
-        <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
+        <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl}/>
     </div>
 };
-
-type MapStateToProps = {
-    captchaUrl: string | null
-    isAuth: boolean
-}
-type MapDispatchToProps = {
-    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
-    logout: () => void
-}
-
-let mapStateToProps = (state: StateType): MapStateToProps => {
-    return {
-        captchaUrl: state.auth.captchaUrl,
-        isAuth: state.auth.isAuth
-    }
-};
-
-export default connect(mapStateToProps, {
-    login, logout
-} as MapDispatchToProps)(Login);

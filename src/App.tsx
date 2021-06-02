@@ -5,8 +5,8 @@ import {HashRouter, Redirect, Route, Switch, withRouter} from "react-router-dom"
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import UsersContainer from "./components/Users/UsersContainer";
-import Login from "./components/Login/Login";
+import {UsersPage} from "./components/Users/UsersPage";
+import {Login} from "./components/Login/Login";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/appReducer";
@@ -73,7 +73,7 @@ class App extends React.Component<AppProps> {
 
 
                                 <Route exact render={() =>
-                                    <UsersContainer/>
+                                    <UsersPage/>
                                 } path='/users'/>
 
                                 <Route render={
