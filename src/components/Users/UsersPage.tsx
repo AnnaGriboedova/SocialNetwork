@@ -41,10 +41,7 @@ export const UsersPage: React.FC = (props) => {
         dispatch(unfollow(userId))
     }
 
-    const onTermFilter = (term: string) => {
-        dispatch(requestUsers(1, usersCount, term, isFriend));
-    }
-    const onFriendFilter = (isFriend: boolean | '') => {
+    const onFilter = (term: string, isFriend: boolean | '') => {
         dispatch(requestUsers(1, usersCount, term, isFriend));
     }
     const onPageChanged = (pageNum: number) => {
@@ -58,8 +55,7 @@ export const UsersPage: React.FC = (props) => {
                        onPageChanged={onPageChanged}
             />
 
-            <FilterForm term={term} isFriend={isFriend} currentPage={currentPage} onTermFilter={onTermFilter}
-                        onFriendFilter={onFriendFilter}/>
+            <FilterForm term={term} isFriend={isFriend} currentPage={currentPage} onFilter={onFilter}/>
 
             {users.map(u =>
                 <User key={u.id}
